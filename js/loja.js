@@ -223,79 +223,7 @@ function mostrarProdutos(nome, preco, imagem, precoPromocao, cor) {
 }
 
 
-/*
-let precoCount = 0 
 
-function adicionarCarrinho(nome, quantidade, preco){
-  for(valor in produtos){
-    const produtosValue = produtos[valor]
-
-    produtosValue.forEach((produto)=>{
-    if(quantidade === 1){
-    carrinho.innerHTML =`Adicionado ao carrinho: ${nome} </br>
-    Quantidade de produtos: ${quantidade} produto`
-    } else{
-    carrinho.innerHTML =`Adicionado ao carrinho: ${nome} </br>
-    Quantidade de produtos: ${quantidade} produtos`
-    }
-    contarPreco.innerHTML = preco
-    const precoTotal = precoCount += preco
-    console.log((precoTotal).toFixed(2))
-    })
-  }
-}
-
-let array = []
-let quantidade = 0 
-
-function mostrarProdutos(nome, preco, imagem, precoPromocao, cor){
-  const div = document.createElement("div")
-  div.id = "mostrar-produtos"
-
-  const div2 = document.createElement("button")
-  div2.classList.add("produto")
-
-   div2.addEventListener("click", () => {
-    quantidade++ 
-    console.log(quantidade, nome, preco)
-    adicionarCarrinho(nome, quantidade, preco)
-   
-  })
-  
-  const img = document.createElement("img")
-  img.classList.add("calca-img")
-  img.src = `./img/${imagem}`
-
-  const nomeProduto = document.createElement("p")
-  nomeProduto.classList.add("nome-produto")
-  nomeProduto.textContent = nome;
-
-  const corProduto = document.createElement("p")
-  corProduto.classList.add("cor-produto")
-  corProduto.textContent = `Cor: ${cor}`
-
-  const precoProduto = document.createElement("p")
-  precoProduto.classList.add("preco")
-  precoProduto.textContent = `Preço: R$${formatarPreco(preco)}`
-
-  div2.appendChild(img);
-  div2.appendChild(nomeProduto)
-  div2.appendChild(corProduto)
-  div2.appendChild(precoProduto)
-
-  if(precoPromocao){
-  precoProduto.classList.add("linha-preco")
-
-  const precoProdutoPromocao = document.createElement("p")
-  precoProdutoPromocao.id = "produto-promocao"
-  precoProdutoPromocao.textContent = `Promoção: R$${formatarPreco(precoPromocao)}`
-  div2.appendChild(precoProdutoPromocao)
-  }
-
-  div.appendChild(div2)
-  containerProdutos.appendChild(div)
-}
-*/
 
 function exibirProdutos(){
 
