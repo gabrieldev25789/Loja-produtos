@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loja de Produtos</title>
+  <link rel="stylesheet" href="./css/loja.css" />
+  <script src="./js/loja.js" defer></script>
+</head>
+<body>
+
+<div id="intro">
+  <h1>Grizzy Store</h1>
+  <div id="intro-container">
+        <ul>
+          <li>Produtos</li>
+          <li>Contato</li>
+          <li>Ofertas</li>
+          <li>Lançamentos</li>
+          <li>Acessibilidade</li>
+        </ul>
+  </div>
+</div>
+
+<main>
+      <div id="produtos">
+            <div id="produtos-container">
+              <h2>Filtrar produtos:</h2>
+              <div id="filtros">
+                <select id="select-tipos">
+                  <option value="" disabled selected>Selecione um tipo de produto</option>
+                  <option value="calca">Calça</option>
+                  <option value="tenis">Tênis</option>
+                  <option value="bone">Boné</option>
+                  <option value="camisa">Camisa</option>
+                  <option value="todos">Todos</option>
+                </select>
+
+                <select name="" id="select-filtros">
+                  <option value="" disabled selected>Selecione uma opção</option>
+                  <option value="promocao">Em promoção</option>
+                  <option value="sem-promocao">Sem Promoção</option>
+                  <option value="todos">Todos</option>
+                </select>
+              
+              <div id="checkboxes">
+                <label>
+                  <input type="checkbox" id="acima-100">
+                  <span>Acima de R$ 100,00</span>
+                </label>
+
+                <label>
+                  <input type="checkbox" id="abaixo-100">
+                  <span>Abaixo de R$ 100,00</span>
+                </label>
+              </div>
+            </div>
+
+           <!-- <div id="cores">
+              <button class="cor" id="amarelo"></button>
+              <button class="cor" id="preto"></button>
+              <button class="cor" id="branco"></button>
+              <button class="cor" id="cinza"></button>
+              <button class="cor" id="azul"></button>
+              <button class="cor" id="vermelho"></button>
+            </div> -->
+      </div>
+    </div>
+      <div id="container-produtos" class="hide">
+      </div>
+
+       <div id="carrinho">
+        <p id="carrinho-qtd">0</p>
+        <p id="contar-preco">0</p>
+       </div>
+
+       <div id="fechar-pedido">
+        <button id="fechar-conta">Fechar pedido</button>
+       </div>
+
+       <div id="formas-pagamento" class="hide">
+        <h2>Qual será sua forma de pagamento?</h2>
+        <div id="pag1">
+          <img src="./img/aura.jpg" alt="" class="img-pag">
+          <p class="forma-pag">PIX</p>
+        </div>
+
+        <div id="pag2">
+          <img src="./img/aura.jpg" alt="" class="img-pag">
+          <p class="forma-pag">DEBITO</p>
+        </div>
+
+        <div id="pag3">
+          <img src="./img/aura.jpg" alt="" class="img-pag">
+          <p class="forma-pag">CREDITO</p>
+        </div>
+
+        <div id="pag4">
+          <img src="./img/aura.jpg" alt="" class="img-pag">
+          <p class="forma-pag">BOLETO</p>
+        </div>
+       </div>
+    </main>
+</body>
+</html>
