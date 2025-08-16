@@ -7,6 +7,14 @@ Projeto simples de uma loja online feito com **HTML, CSS e JavaScript**.
 - Cálculo de valores
 - Layout responsivo
 
+🛠️ Tecnologias
+
+- HTML
+
+- CSS
+
+- JavaScript
+
 ## 📦 Como usar
 1. Clone este repositório:
    ```bash
