@@ -48,50 +48,7 @@ const produtos = {
   ]
 }
 
-/*function mostrarProdutoPorCor(){
-  cores.forEach((cor) => {
-    cor.addEventListener("click", () => {
-      cores.forEach((c) => c.classList.remove("select"));
-      cor.classList.add("select");
 
-      const tipo = selectTipos.value;
-      const filtro = selectFiltros.value; // (não está sendo usado aqui ainda)
-      const corId = cor.id;
-
-      if (!tipo) {
-        alert("Por favor selecione um produto");
-        cores.forEach((c) => c.classList.remove("select"));
-        return;
-      }
-
-      containerProdutos.innerHTML = ""; // Limpa os produtos anteriores
-
-      for (let valor in produtos) {
-        const produtosValue = produtos[valor];
-
-        const filtrados = produtosValue.filter((produto) =>
-          produto.tipo === tipo &&
-          produto.cor === corId 
-        )
-
-        filtrados.forEach((produto) => {
-          containerProdutos.classList.remove("hide")
-          mostrarProdutos(
-            produto.nome,
-            produto.preco,
-            produto.src,
-            produto.precoPromocao,
-            produto.cor
-          );
-        });
-      }
-      if(containerProdutos.innerHTML === ""){
-         limparContainerExibirMsg()
-        }
-    });
-  });
-}
-mostrarProdutoPorCor() */
 
 let precoCount = 0;
 let produto = 0 
@@ -140,7 +97,6 @@ function adicionarCarrinho(nome, quantidade, preco) {
       zerarCarrinho()
       precoCount = preco
       contarPreco.innerHTML = "Total: fdsfd"
-      return
     })
   }
   
@@ -154,9 +110,8 @@ function zerarCarrinho(preco, precoPromocao){
   carrinhoCompra.innerHTML = "Quantidade de produtos: 0"
   contarPreco.innerHTML = `Total: R$ 0`
   formasPagamento.classList.add("hide")
+  if(quantidade <= 0) return 
   quantidade--
-  preco === 0 
-  precoPromocao === 0
 }
 
 function verProdutosCarrinho(nome, quantidade, preco){
@@ -168,8 +123,6 @@ function verProdutosCarrinho(nome, quantidade, preco){
 }
 
 
-let array = [];
-
 function calcularPagamento(){
 
   pagamento.forEach((pag)=>{
@@ -179,7 +132,7 @@ function calcularPagamento(){
         const descontoPix = precoCount * 0.95
         const acrescimoCre = precoCount * 1.03
 
-        carrinho.innerHTML = `Valor total: ${(precoCount).toFixed(2)}`
+        carrinhoCompra.innerHTML = `Valor total: ${(precoCount).toFixed(2)}`
 
         switch(pag.innerHTML){
           case "DEBITO":
@@ -201,8 +154,8 @@ function calcularPagamento(){
       })
     })
   }
-calcularPagamento()
 
+calcularPagamento()
 
 function mostrarProdutos(nome, preco, imagem, precoPromocao, cor) {
   const div = document.createElement("div");
@@ -238,8 +191,6 @@ function mostrarProdutos(nome, preco, imagem, precoPromocao, cor) {
     fecharConta.innerHTML = "Fechar pedido"
     formasPagamento.classList.add("hide")
     } 
-
-
   });
   console.log(lista)
 
