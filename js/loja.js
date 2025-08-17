@@ -157,7 +157,7 @@ function calcularPagamento(){
         const descontoDeb = precoCount * 0.97
         const descontoPix = precoCount * 0.95
         const acrescimoCre = precoCount * 1.03
-        
+
         carrinho.innerHTML = `Valor total: ${(precoCount).toFixed(2)}`
 
         switch(pag.innerHTML){
