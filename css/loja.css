@@ -319,3 +319,16 @@ justify-content: space-between;
   background-color: rgb(83, 148, 221);
   border: 2px solid rgb(56, 58, 56);
 }
+
+#carrinho{
+  background-color: rgb(156, 30, 30);
+  padding: 0.5rem;
+  border-radius: 10px;
+  margin: 2rem auto;
+  text-align: center;
+  width: 140vh;
+}
+
+#fechar-conta{
+  width: 500px;
+}
