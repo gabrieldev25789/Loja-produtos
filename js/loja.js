@@ -11,8 +11,11 @@ const contarPreco = document.querySelector("#contar-preco")
 const fecharConta = document.querySelector("#fechar-conta")
 fecharConta.classList.add("hide")
 
-const formarsPagamento = document.querySelector("#formas-pagamento")
+const formasPagamento = document.querySelector("#formas-pagamento")
 const pagamento = document.querySelectorAll(".forma-pag")
+
+const verProdutos = document.querySelector("#ver-produtos-carrinho")
+const mostrarProdutosCarrinho = document.querySelector("#mostrar-produtos-carrinho")
 
 const produtos = {
   calca: [
@@ -92,6 +95,7 @@ mostrarProdutoPorCor() */
 
 
 let precoCount = 0;
+let produto = 0 
 
 function adicionarCarrinho(nome, quantidade, preco) {
   // soma o preço ao total acumulado
@@ -114,15 +118,33 @@ function adicionarCarrinho(nome, quantidade, preco) {
   contarPreco.innerHTML = `Total: R$ ${precoCount.toFixed(2)}`;
 
   fecharConta.addEventListener("click", () =>{
-  carrinho.innerHTML = ""
-  contarPreco.innerHTML = `Total dos produtos: R$ ${precoCount.toFixed(2)}`;
+  
+  if(quantidade === 1){
+  contarPreco.innerHTML = `Total do produto: R$ ${precoCount.toFixed(2)}`;
+  carrinho.innerHTML = `Quantidade de produtos: ${quantidade} produto`
+  } else{
+  contarPreco.innerHTML = `Total dos produtos: R$ ${precoCount.toFixed(2)}`
+  carrinho.innerHTML = `Quantidade de produtos: ${quantidade} produtos`
+  }
+
   fecharConta.innerHTML = "Continuar para o pagamento"
   fecharConta.addEventListener("click", () =>{
-  formarsPagamento.classList.remove("hide")
+  formasPagamento.classList.remove("hide")
   fecharConta.innerHTML = "Zerar Carrinho"
     })
   })
 }
+
+
+function verProdutosCarrinho(nome, quantidade, preco){
+  
+  verProdutos.addEventListener("click", () =>{
+ 
+  console.log(`produto: ${nome}`)
+  mostrarProdutosCarrinho.innerHTML = `produto: ${nome}`
+  })
+}
+
 
 let array = [];
 let quantidade = 0;
@@ -135,27 +157,32 @@ function calcularPagamento(){
         const descontoDeb = precoCount * 0.97
         const descontoPix = precoCount * 0.95
         const acrescimoCre = precoCount * 1.03
+        
+        carrinho.innerHTML = `Valor total: ${(precoCount).toFixed(2)}`
 
-      if(pag.innerHTML === "DEBITO"){
-        carrinho.innerHTML = `Valor Total do pedido: ${(precoCount).toFixed(2)}`
-        contarPreco.innerHTML = `total com desconto de debito: ${(descontoDeb).toFixed(2)}`
+        switch(pag.innerHTML){
+          case "DEBITO":
+          contarPreco.innerHTML = `Valor total no debito: ${(descontoDeb).toFixed(2)}`
+          break 
+
+          case "PIX":
+          contarPreco.innerHTML = `Valor total no pix: ${(descontoPix).toFixed(2)}`
+          break 
+
+          case "CREDITO":
+          contarPreco.innerHTML = `Valor total no credito: ${(acrescimoCre).toFixed(2)}`
+          break 
+
+          case "BOLETO":
+          contarPreco.innerHTML = `Valor Total no boleto: ${(precoCount).toFixed(2)}`
+          break 
         } 
-        else if(pag.innerHTML === "PIX"){
-        carrinho.innerHTML = `Valor Total do pedido: ${(precoCount).toFixed(2)}`
-        contarPreco.innerHTML = `total com desconto de pix: ${(descontoPix).toFixed(2)}`
-        }
-        else if(pag.innerHTML === "CREDITO"){
-        carrinho.innerHTML = `Valor Total do pedido: ${(precoCount).toFixed(2)}`
-        contarPreco.innerHTML = `total com acréscimo de credito: ${(acrescimoCre).toFixed(2)}`
-        }
-        else if(pag.innerHTML === "BOLETO"){
-        carrinho.innerHTML = `Valor Total do pedido: ${(precoCount).toFixed(2)}`
-        contarPreco.innerHTML = ""
-        }
+
       })
     })
   }
 calcularPagamento()
+
 
 function mostrarProdutos(nome, preco, imagem, precoPromocao, cor) {
   const div = document.createElement("div");
@@ -176,15 +203,18 @@ function mostrarProdutos(nome, preco, imagem, precoPromocao, cor) {
     adicionarCarrinho(nome, quantidade, precoPromocao);
     fecharConta.classList.remove("hide")
     fecharConta.innerHTML = "Fechar pedido"
-    formarsPagamento.classList.add("hide")
+    formasPagamento.classList.add("hide")
     } 
     else{
     adicionarCarrinho(nome, quantidade, preco);
     fecharConta.classList.remove("hide")
     fecharConta.innerHTML = "Fechar pedido"
-    formarsPagamento.classList.add("hide")
+    formasPagamento.classList.add("hide")
     }
   });
+
+  verProdutosCarrinho(nome)
+  
 
   const img = document.createElement("img");
   img.classList.add("calca-img");
@@ -221,8 +251,6 @@ function mostrarProdutos(nome, preco, imagem, precoPromocao, cor) {
 
   containerProdutos.appendChild(div);
 }
-
-
 
 
 function exibirProdutos(){
