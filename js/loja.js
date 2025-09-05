@@ -164,6 +164,85 @@ function calcularPagamento(){
 
 calcularPagamento()
 
+// CRIANDO ESTRUTURA DOS PRODUTOS
+function criarEstruturaProduto(nome, preco, imagem, cor, precoPromocao) {
+  const div2 = document.createElement("div");
+  div2.classList.add("produto");
+
+  const img = document.createElement("img");
+  img.classList.add("calca-img");
+  img.src = `./img/${imagem}`;
+
+  const nomeProduto = document.createElement("p");
+  nomeProduto.classList.add("nome-produto");
+  nomeProduto.textContent = nome;
+
+  const corProduto = document.createElement("p");
+  corProduto.classList.add("cor-produto");
+  corProduto.textContent = `Cor: ${cor}`;
+
+  const precoProduto = document.createElement("p");
+  precoProduto.classList.add("preco");
+  precoProduto.textContent = `Preço: R$${formatarPreco(preco)}`;
+
+  div2.append(img, nomeProduto, corProduto, precoProduto);
+
+  if (precoPromocao) {
+    precoProduto.classList.add("linha-preco");
+    const precoProdutoPromocao = document.createElement("p");
+    precoProdutoPromocao.id = "produto-promocao";
+    precoProdutoPromocao.textContent = `Promoção: R$${formatarPreco(precoPromocao)}`;
+    div2.appendChild(precoProdutoPromocao);
+  }
+
+  return div2;
+}
+
+// FUNÇÃO QUE CRIA O BOTÃO DE ADICIONAR PRODUTO AO CARRINHO E CRIA A LOGICA DA FUNCIONALIDADE
+function criarBotaoCarrinho(nome, preco, precoPromocao) {
+  const carrinho = document.createElement("button");
+  carrinho.innerHTML = "Adicionar ao carrinho";
+  carrinho.classList.add("carro");
+
+  const lista = document.createElement("li");
+  lista.id = "lista";
+
+  carrinho.addEventListener("click", () => {
+    quantidade++;
+    lista.innerHTML = nome;
+
+    divCarrinho.classList.remove("hide");
+    carrinhoCompra.classList.remove("hide");
+    contarPreco.classList.remove("hide");
+
+    fecharConta.classList.remove("hide");
+    fecharConta.innerHTML = "Fechar pedido";
+    formasPagamento.classList.add("hide");
+
+    precoPromocao
+      ? adicionarCarrinho(nome, quantidade, precoPromocao)
+      : adicionarCarrinho(nome, quantidade, preco);
+  });
+
+  return carrinho;
+}
+
+// FUNÇÃO QUE MOSTRA OS PRODUTOS
+function mostrarProdutos(nome, preco, imagem, precoPromocao, cor) {
+  const div = document.createElement("div");
+  div.id = "mostrar-produtos";
+
+  const estruturaProduto = criarEstruturaProduto(nome, preco, imagem, cor, precoPromocao);
+  const botaoCarrinho = criarBotaoCarrinho(nome, preco, precoPromocao);
+
+  estruturaProduto.appendChild(botaoCarrinho);
+  div.appendChild(estruturaProduto);
+
+  containerProdutos.appendChild(div);
+}
+
+
+/*
 // FUNÇÃO QUE CRIA OS ELEMENTOS E MOSTRA OS PRODUTOS
 function mostrarProdutos(nome, preco, imagem, precoPromocao, cor) {
   const div = document.createElement("div");
@@ -179,7 +258,7 @@ function mostrarProdutos(nome, preco, imagem, precoPromocao, cor) {
   const lista = document.createElement("li")
   lista.id = "lista"
 
-  carrinho.addEventListener("click", () => {
+    carrinho.addEventListener("click", () => {
     quantidade++;
     lista.innerHTML = nome 
     divCarrinho.classList.remove("hide")
@@ -194,9 +273,11 @@ function mostrarProdutos(nome, preco, imagem, precoPromocao, cor) {
     : adicionarCarrinho(nome, quantidade, preco)
 
   });
+
+
   console.log(lista)
 
-  /*verProdutosCarrinho(nome)*/
+  /*verProdutosCarrinho(nome)
   
   const img = document.createElement("img");
   img.classList.add("calca-img");
@@ -233,6 +314,8 @@ function mostrarProdutos(nome, preco, imagem, precoPromocao, cor) {
 
   containerProdutos.appendChild(div);
 }
+
+*/
 
 // FUNÇÃO QUE EXIBE PRODUTOS COM BASE NO TIPO SELECIONADO E NO FILTRO DE PROMOÇÃO
 function exibirProdutos(){
