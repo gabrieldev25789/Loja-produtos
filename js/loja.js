@@ -7,12 +7,14 @@ const abaixo100 = document.querySelector("#abaixo-100")
 const cores = document.querySelectorAll(".cor")
 
 const divCarrinho = document.querySelector("#carrinho")
+divCarrinho.classList.add("none")
 const carrinhoCompra = document.querySelector("#carrinho-qtd")
 const contarPreco = document.querySelector("#contar-preco")
 const fecharConta = document.querySelector("#fechar-conta")
 fecharConta.classList.add("hide")
 
 const formasPagamento = document.querySelector("#formas-pagamento")
+formasPagamento.classList.add("none")
 const pagamento = document.querySelectorAll(".forma-pag")
 
 const verProdutos = document.querySelector("#ver-produtos-carrinho")
@@ -55,6 +57,7 @@ let produto = 0
 
 // FUNÇÃO PARA ADICIONAR PRODUTOS NO CARRINHO
 function adicionarCarrinho(nome, quantidade, preco) {
+  divCarrinho.classList.remove("none")
   // soma o preço ao total acumulado
   precoCount += preco;
 
@@ -70,12 +73,12 @@ function adicionarCarrinho(nome, quantidade, preco) {
       Quantidade de produtos: ${quantidade} produtos
     `;
   }
- 
   // mostra o total acumulado (não só o último preço)
   contarPreco.innerHTML = `Total: R$ ${precoCount.toFixed(2)}`;
+}
 
-  fecharConta.addEventListener("click", () =>{
-  
+// EVENTO DE FECHAR A CONTA DOS PRODUTOS ESCOLHIDOS
+fecharConta.addEventListener("click", () =>{
   if(quantidade === 1){
   contarPreco.innerHTML = `Total do produto: R$ ${precoCount.toFixed(2)}`;
   carrinhoCompra.innerHTML = `Quantidade de produtos: ${quantidade} produto`
@@ -92,9 +95,9 @@ function adicionarCarrinho(nome, quantidade, preco) {
   fecharConta.addEventListener("click", () =>{
 
   formasPagamento.classList.remove("hide")  
+  formasPagamento.classList.remove("none")
     })
   })
-}
 
 let quantidade = 0;
 
@@ -112,7 +115,8 @@ buttonZerarCarrinho.addEventListener("click", () =>{
 function zerarCarrinho(){
   carrinhoCompra.innerHTML = "Quantidade de produtos: 0"
   contarPreco.innerHTML = `Total: R$ 0`
-  formasPagamento.classList.add("hide")
+  /*formasPagamento.classList.add("hide")*/
+  formasPagamento.classList.add("none")
   if(quantidade <= 0) return 
   quantidade--
 }
