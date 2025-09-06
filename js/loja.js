@@ -8,6 +8,7 @@ const cores = document.querySelectorAll(".cor")
 
 const divCarrinho = document.querySelector("#carrinho")
 divCarrinho.classList.add("none")
+
 const carrinhoCompra = document.querySelector("#carrinho-qtd")
 const contarPreco = document.querySelector("#contar-preco")
 const fecharConta = document.querySelector("#fechar-conta")
@@ -15,6 +16,7 @@ fecharConta.classList.add("hide")
 
 const formasPagamento = document.querySelector("#formas-pagamento")
 formasPagamento.classList.add("none")
+formasPagamento.classList.add("hide")
 const pagamento = document.querySelectorAll(".forma-pag")
 
 const verProdutos = document.querySelector("#ver-produtos-carrinho")
@@ -78,6 +80,38 @@ function adicionarCarrinho(nome, quantidade, preco) {
 }
 
 // EVENTO DE FECHAR A CONTA DOS PRODUTOS ESCOLHIDOS
+
+let etapa = 1; // controla se está fechando conta ou indo para pagamento
+
+fecharConta.addEventListener("click", () => {
+  if (etapa === 1) {
+    // Primeira etapa: mostrar total e esconder produtos
+    if (quantidade === 1) {
+      contarPreco.innerHTML = `Total do produto: R$ ${precoCount.toFixed(2)}`;
+      carrinhoCompra.innerHTML = `Quantidade de produtos: ${quantidade} produto`;
+    } else {
+      contarPreco.innerHTML = `Total dos produtos: R$ ${precoCount.toFixed(2)}`;
+      carrinhoCompra.innerHTML = `Quantidade de produtos: ${quantidade} produtos`;
+    }
+
+    containerProdutos.classList.add("hide");
+    divCarrinho.classList.add("margin");
+
+    fecharConta.innerHTML = "Continuar para o pagamento";
+    etapa = 2; // muda para próxima etapa
+  } else if (etapa === 2 || etapa >= 3) {
+    containerProdutos.classList.add("hide")
+    divCarrinho.classList.add("margin")
+    // Segunda etapa: mostrar formas de pagamento
+    formasPagamento.classList.remove("hide");
+    formasPagamento.classList.remove("none");
+
+    fecharConta.innerHTML = "Finalizar compra";
+    
+  }
+});
+
+/*
 fecharConta.addEventListener("click", () =>{
   if(quantidade === 1){
   contarPreco.innerHTML = `Total do produto: R$ ${precoCount.toFixed(2)}`;
@@ -87,32 +121,44 @@ fecharConta.addEventListener("click", () =>{
   carrinhoCompra.innerHTML = `Quantidade de produtos: ${quantidade} produtos`
   containerProdutos.classList.add("hide")
   }
-  formasPagamento.classList.add("hide")
+
+ formasPagamento.classList.add("hide")
+
   divCarrinho.classList.add("margin")
   containerProdutos.classList.add("hide")
 
   fecharConta.innerHTML = "Continuar para o pagamento"
-  fecharConta.addEventListener("click", () =>{
 
-  formasPagamento.classList.remove("hide")  
-  formasPagamento.classList.remove("none")
-    })
+  const estado = fecharConta.textContent 
+
+  if(estado === "Fechar pedido"){
+    formasPagamento.classList.add("hide")  
+    formasPagamento.classList.add("none")
+  } else{
+    formasPagamento.classList.remove("hide")  
+    formasPagamento.classList.remove("none")
+    }
   })
-
+*/
 let quantidade = 0;
 
 // EVENTO DO BOTÃO ZERAR CARRINHO
 buttonZerarCarrinho.addEventListener("click", () =>{
   zerarCarrinho()
-  verProdutos.classList.add("hide")
+ /*verProdutos.classList.add("hide")
   formasPagamento.classList.add("hide")
   fecharConta.classList.add("hide")
   quantidade = 0
-  precoCount = 0
+  precoCount = 0 */
 })
 
 // ZERAR CARRINHO
 function zerarCarrinho(){
+  verProdutos.classList.add("hide")
+  formasPagamento.classList.add("hide")
+  fecharConta.classList.add("hide")
+  quantidade = 0
+  precoCount = 0 
   carrinhoCompra.innerHTML = "Quantidade de produtos: 0"
   contarPreco.innerHTML = `Total: R$ 0`
   /*formasPagamento.classList.add("hide")*/
