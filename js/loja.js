@@ -23,6 +23,8 @@ const verProdutos = document.querySelector("#ver-produtos-carrinho")
 const mostrarProdutosCarrinho = document.querySelector("#mostrar-produtos-carrinho")
 const buttonZerarCarrinho = document.querySelector("#zerar-carrinho")
 
+const continuarPag = document.querySelector("#continuar-pag")
+
 const produtos = {
   calca: [
     { tipo: "calca", nome: "Calça cargo", cor: "preto", preco: 189.90, promocao: true, precoPromocao: 49.90, src: "calcacargopreta.jpeg" },
@@ -84,6 +86,8 @@ function adicionarCarrinho(nome, quantidade, preco) {
 let etapa = 1; // controla se está fechando conta ou indo para pagamento
 
 fecharConta.addEventListener("click", () => {
+  continuarPag.classList.remove("hide")
+  fecharConta.classList.add("hide")
   if (etapa === 1) {
     // Primeira etapa: mostrar total e esconder produtos
     if (quantidade === 1) {
@@ -93,23 +97,17 @@ fecharConta.addEventListener("click", () => {
       contarPreco.innerHTML = `Total dos produtos: R$ ${precoCount.toFixed(2)}`;
       carrinhoCompra.innerHTML = `Quantidade de produtos: ${quantidade} produtos`;
     }
-
     containerProdutos.classList.add("hide");
     divCarrinho.classList.add("margin");
+  } 
+})
 
-    fecharConta.innerHTML = "Continuar para o pagamento";
-    etapa = 2; // muda para próxima etapa
-  } else if (etapa === 2 || etapa >= 3) {
+continuarPag.addEventListener("click", () => {
     containerProdutos.classList.add("hide")
     divCarrinho.classList.add("margin")
-    // Segunda etapa: mostrar formas de pagamento
     formasPagamento.classList.remove("hide");
     formasPagamento.classList.remove("none");
-
-    fecharConta.innerHTML = "Finalizar compra";
-    
-  }
-});
+})
 
 /*
 fecharConta.addEventListener("click", () =>{
@@ -287,7 +285,6 @@ function mostrarProdutos(nome, preco, imagem, precoPromocao, cor) {
   containerProdutos.appendChild(div);
 }
 
-
 /*
 // FUNÇÃO QUE CRIA OS ELEMENTOS E MOSTRA OS PRODUTOS
 function mostrarProdutos(nome, preco, imagem, precoPromocao, cor) {
@@ -449,8 +446,10 @@ function limparContainerExibirMsg(){
 
 // FUNÇÃO PARA MOSTRAR O PRODUTO PELO SEU TIPO (CALÇA, TÊNIS, BONÉ...)
 function mostrarProdutoPorTipo(){
-
- const tipo = selectTipos.value 
+  [formasPagamento, divCarrinho].forEach((el)=>{
+    el.classList.add("none")
+  })
+  const tipo = selectTipos.value 
   containerProdutos.innerHTML = ""
   selectFiltros.value = ""
 
