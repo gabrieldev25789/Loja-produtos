@@ -7,7 +7,6 @@
 body {
   font-family: Arial, sans-serif;
   background-color: #131212;
-  margin-bottom:  500px;
 }
 
 /* INTRO */
@@ -324,11 +323,34 @@ justify-content: space-between;
   background-color: rgb(156, 30, 30);
   padding: 0.5rem;
   border-radius: 10px;
-  margin: 2rem auto;
+  margin: 2rem 2rem;
   text-align: center;
-  width: 140vh;
+  width: 80vh;
+  min-height: 14vh;
+  max-height: 42vh;
+}
+
+#carrinho-qtd{
+  font-size: 2.5rem;
+  padding-bottom: 1rem;
+}
+#contar-preco{
+  font-size: 2.3rem;
+  width: 60vh;
+  margin-left: 6rem;
 }
 
 #fechar-conta{
   width: 500px;
 }
+
+
+
+.none{
+  display: none !important;
+}
+
+.margin2{
+  margin: -22rem 0 !important;
+}
+
