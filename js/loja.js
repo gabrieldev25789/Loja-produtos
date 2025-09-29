@@ -55,7 +55,7 @@ const produtos = {
   ]
 }
 
-
+let quantidade = 0;
 let precoCount = 0;
 let produto = 0 
 
@@ -66,31 +66,30 @@ function adicionarCarrinho(nome, quantidade, preco) {
   precoCount += preco;
 
   // mostra mensagem no carrinho
-  if (quantidade === 1) {
     carrinhoCompra.innerHTML = `
-      Produto adicionado: ${nome} </br>
-      Quantidade de produtos: ${quantidade} produto
-    `;
-  } else {
-    carrinhoCompra.innerHTML = `
-      Produto adicionado: ${nome} </br>
-      Quantidade de produtos: ${quantidade} produtos
-    `;
-  }
+    Produto adicionado: ${nome} </br>
+    Quantidade total: ${quantidade} ${quantidade === 1 ? "produto" : "produtos"}
+  `
   // mostra o total acumulado (não só o último preço)
   contarPreco.innerHTML = `Total: R$ ${precoCount.toFixed(2)}`;
-
 }
 
-
 // EVENTO DE FECHAR A CONTA DOS PRODUTOS ESCOLHIDOS
-
 let etapa = 1; // controla se está fechando conta ou indo para pagamento
 
 fecharConta.addEventListener("click", () => {
-  continuarPag.classList.remove("hide")
-  fecharConta.classList.add("hide")
-  divCarrinho.style.marginTop = "-80vh"
+    continuarPag.classList.remove("hide")
+    fecharConta.classList.add("hide")  
+  
+    if(selectTipos.value === "todos"){
+    containerProdutos.classList.add("none")
+    divCarrinho.style.marginTop = "0vh"
+    } 
+
+    else if(selectTipos.value === "calca" || selectTipos.value === "tenis" || selectTipos.value === "bone" || selectTipos.value === "camisa"){
+
+    divCarrinho.style.marginTop = "-80vh"
+
   if (etapa === 1) {
     // Primeira etapa: mostrar total e esconder produtos
     if (quantidade === 1) {
@@ -103,16 +102,20 @@ fecharConta.addEventListener("click", () => {
     containerProdutos.classList.add("hide");
     divCarrinho.classList.add("margin");
   } 
+    }
 })
-
+    
 continuarPag.addEventListener("click", () => {
+  if(selectTipos.value === "todos"){
+    console.log("caiu aqui")
+  }
+    console.log("continuar")
     containerProdutos.classList.add("hide")
     divCarrinho.classList.add("margin")
     formasPagamento.classList.remove("hide");
     formasPagamento.classList.remove("none");
 })
 
-let quantidade = 0;
 
 // EVENTO DO BOTÃO ZERAR CARRINHO
 buttonZerarCarrinho.addEventListener("click", () =>{
@@ -122,6 +125,11 @@ buttonZerarCarrinho.addEventListener("click", () =>{
 
 // ZERAR CARRINHO
 function zerarCarrinho(){
+  console.log("ZERAR")
+  if(selectTipos.value === "todos"){
+    divCarrinho.style.marginTop = "0vh"
+    console.log("zerar")
+  } 
   [continuarPag, verProdutos, formasPagamento, fecharConta].forEach((el) => el.classList.add("hide"))
 
   divCarrinho.style.marginTop = "-40vh"
@@ -132,8 +140,8 @@ function zerarCarrinho(){
   contarPreco.innerHTML = `Total: R$ 0`
   /*formasPagamento.classList.add("hide")*/
   formasPagamento.classList.add("none")
+  quantidade = 0
   if(quantidade <= 0) return 
-  quantidade--
 }
 
 // FUNÇÃO PARA CALCULAR O VALOR TOTAL DOS PRODUTOS COM BASE NA FORMA DE PAGAMENTO
@@ -213,8 +221,8 @@ function criarBotaoCarrinho(nome, preco, precoPromocao) {
   lista.id = "lista";
 
   carrinho.addEventListener("click", () => {
-  divCarrinho.style.marginTop = "2vh"
-    quantidade++;
+    quantidade++
+    divCarrinho.style.marginTop = "-2vh"
     lista.innerHTML = nome;
 
     [divCarrinho, carrinhoCompra, contarPreco, fecharConta].forEach((el)=> el.classList.remove("hide"))
@@ -224,7 +232,6 @@ function criarBotaoCarrinho(nome, preco, precoPromocao) {
     precoPromocao
       ? adicionarCarrinho(nome, quantidade, precoPromocao) 
       : adicionarCarrinho(nome, quantidade, preco);
-
   });
 
   return carrinho;
@@ -466,3 +473,4 @@ abaixo100.addEventListener("change", () => {
 function formatarPreco(valor){
   return Number(valor).toFixed(2).replace('.', ',');
 }
+
