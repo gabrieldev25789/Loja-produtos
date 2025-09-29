@@ -25,6 +25,8 @@ const buttonZerarCarrinho = document.querySelector("#zerar-carrinho")
 
 const continuarPag = document.querySelector("#continuar-pag")
 
+const fecharPedidoDiv = document.querySelector("#fechar-pedido")
+
 const produtos = {
   calca: [
     { tipo: "calca", nome: "Calça cargo", cor: "preto", preco: 189.90, promocao: true, precoPromocao: 49.90, src: "calcacargopreta.jpeg" },
@@ -59,8 +61,11 @@ let quantidade = 0;
 let precoCount = 0;
 let produto = 0 
 
+fecharPedidoDiv.classList.add("none")
 // FUNÇÃO PARA ADICIONAR PRODUTOS NO CARRINHO
 function adicionarCarrinho(nome, quantidade, preco) {
+  divCarrinho.style.marginTop = "0vh"
+  fecharPedidoDiv.classList.remove("none")
   divCarrinho.classList.remove("none")
   // soma o preço ao total acumulado
   precoCount += preco;
@@ -74,9 +79,9 @@ function adicionarCarrinho(nome, quantidade, preco) {
   contarPreco.innerHTML = `Total: R$ ${precoCount.toFixed(2)}`;
 }
 
-// EVENTO DE FECHAR A CONTA DOS PRODUTOS ESCOLHIDOS
 let etapa = 1; // controla se está fechando conta ou indo para pagamento
 
+// EVENTO DE FECHAR A CONTA DOS PRODUTOS ESCOLHIDOS
 fecharConta.addEventListener("click", () => {
     continuarPag.classList.remove("hide")
     fecharConta.classList.add("hide")  
@@ -119,11 +124,12 @@ continuarPag.addEventListener("click", () => {
 // EVENTO DO BOTÃO ZERAR CARRINHO
 buttonZerarCarrinho.addEventListener("click", () =>{
   zerarCarrinho()
-
 })
 
 // ZERAR CARRINHO
 function zerarCarrinho(){
+fecharPedidoDiv.classList.add("none")
+
   console.log("ZERAR")
   if(selectTipos.value === "todos"){
     divCarrinho.style.marginTop = "0vh"
@@ -131,7 +137,7 @@ function zerarCarrinho(){
   } 
   [continuarPag, verProdutos, formasPagamento, fecharConta].forEach((el) => el.classList.add("hide"))
 
-  divCarrinho.style.marginTop = "-0vh"
+  divCarrinho.style.marginTop = "0vh"
   containerProdutos.classList.add("margin2")
   quantidade = 0
   precoCount = 0 
@@ -221,7 +227,6 @@ function criarBotaoCarrinho(nome, preco, precoPromocao) {
 
   carrinho.addEventListener("click", () => {
     quantidade++
-    divCarrinho.style.marginTop = "-2vh"
     lista.innerHTML = nome;
 
     [divCarrinho, carrinhoCompra, contarPreco, fecharConta].forEach((el)=> el.classList.remove("hide"))
@@ -370,6 +375,7 @@ function esconderCarrinho(){
 // EVENTOS DOS SELECTS
 [selectFiltros, selectTipos].forEach((select)=>{
       select.addEventListener("change", (e)=>{
+      divCarrinho.style.marginTop = "-30vh"
       containerProdutos.classList.remove("none")
       continuarPag.classList.add("hide")
       zerarCheckboxes(); // Limpa os checkboxes sempre que muda o tipo
