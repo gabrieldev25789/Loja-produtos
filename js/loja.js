@@ -88,7 +88,6 @@ fecharConta.addEventListener("click", () => {
 
     else if(selectTipos.value === "calca" || selectTipos.value === "tenis" || selectTipos.value === "bone" || selectTipos.value === "camisa"){
 
-    divCarrinho.style.marginTop = "-80vh"
 
   if (etapa === 1) {
     // Primeira etapa: mostrar total e esconder produtos
@@ -99,7 +98,7 @@ fecharConta.addEventListener("click", () => {
       contarPreco.innerHTML = `Total dos produtos: R$ ${precoCount.toFixed(2)}`;
       carrinhoCompra.innerHTML = `Quantidade de produtos: ${quantidade} produtos`;
     }
-    containerProdutos.classList.add("hide");
+    containerProdutos.classList.add("none");
     divCarrinho.classList.add("margin");
   } 
     }
@@ -132,7 +131,7 @@ function zerarCarrinho(){
   } 
   [continuarPag, verProdutos, formasPagamento, fecharConta].forEach((el) => el.classList.add("hide"))
 
-  divCarrinho.style.marginTop = "-40vh"
+  divCarrinho.style.marginTop = "-0vh"
   containerProdutos.classList.add("margin2")
   quantidade = 0
   precoCount = 0 
@@ -371,6 +370,7 @@ function esconderCarrinho(){
 // EVENTOS DOS SELECTS
 [selectFiltros, selectTipos].forEach((select)=>{
       select.addEventListener("change", (e)=>{
+      containerProdutos.classList.remove("none")
       continuarPag.classList.add("hide")
       zerarCheckboxes(); // Limpa os checkboxes sempre que muda o tipo
       esconderCarrinho()
@@ -426,7 +426,6 @@ function verificarCheckBoxes(){
   } else {
     valorCheckbox = produtosAbaixo100
   } 
-
     valorCheckbox.forEach((produto)=>{
       if(filtro === "promocao" && produto.promocao === true 
       || filtro === "sem-promocao" && produto.promocao === false 
