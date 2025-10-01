@@ -1,6 +1,7 @@
 const selectFiltros = document.querySelector("#select-filtros")
 const selectTipos = document.querySelector("#select-tipos")
 const containerProdutos = document.querySelector("#container-produtos")
+const selectProdutos = document.querySelector("#produtos")
 const acima100 = document.querySelector("#acima-100")
 const abaixo100 = document.querySelector("#abaixo-100")
 
@@ -83,12 +84,13 @@ let etapa = 1; // controla se está fechando conta ou indo para pagamento
 
 // EVENTO DE FECHAR A CONTA DOS PRODUTOS ESCOLHIDOS
 fecharConta.addEventListener("click", () => {
+    divCarrinho.style.marginTop = "4rem"
+    selectProdutos.classList.add("none")
     continuarPag.classList.remove("hide")
     fecharConta.classList.add("hide")  
   
     if(selectTipos.value === "todos"){
     containerProdutos.classList.add("none")
-    divCarrinho.style.marginTop = "0vh"
     } 
 
     else if(selectTipos.value === "calca" || selectTipos.value === "tenis" || selectTipos.value === "bone" || selectTipos.value === "camisa"){
@@ -128,6 +130,7 @@ buttonZerarCarrinho.addEventListener("click", () =>{
 
 // ZERAR CARRINHO
 function zerarCarrinho(){
+  selectProdutos.classList.remove("none")
   selectTipos.selectedIndex = 0
   zerarCheckboxes()
 fecharPedidoDiv.classList.add("none")
@@ -266,7 +269,7 @@ function exibirProdutos(){
 
   if(!tipo){
     alert("selecione um produto")
-    containerProdutos.classList.add("hide")
+    containerProdutos.classList.add("none")
     return
   }
 
@@ -409,7 +412,8 @@ function verificarCheckBoxes(){
 
   if(!tipo){
   alert("selecione um produto")
-  containerProdutos.classList.add("hide")
+  console.log("aqui produto")
+  containerProdutos.classList.add("none")
   zerarCheckboxes()
   return
   }
@@ -448,14 +452,14 @@ function verificarCheckBoxes(){
 // FUNÇÃO QUE DECIDE OQUE VAI SER EXIBIDO COM BASE NO CHECKBOX
 function checarCheckboxes(){
   if(acima100.checked || abaixo100.checked){
-    verificarCheckBoxes()
     esconderCarrinho()
     containerProdutos.className = ""
     divCarrinho.style.marginTop = "-20vh"
+    verificarCheckBoxes()
+
   } else{
     mostrarProdutoPorTipo()
   } 
-
   if(selectTipos.value === "todos"){
     mostrarAll()
   } 
