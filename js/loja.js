@@ -26,6 +26,8 @@ const buttonZerarCarrinho = document.querySelector("#zerar-carrinho")
 
 const continuarPag = document.querySelector("#continuar-pag")
 
+const voltar = document.querySelector("#voltar-loja")
+
 const fecharPedidoDiv = document.querySelector("#fechar-pedido")
 
 const produtos = {
@@ -84,6 +86,7 @@ let etapa = 1; // controla se está fechando conta ou indo para pagamento
 
 // EVENTO DE FECHAR A CONTA DOS PRODUTOS ESCOLHIDOS
 fecharConta.addEventListener("click", () => {
+    voltar.classList.remove("none")
     divCarrinho.style.marginTop = "4rem"
     selectProdutos.classList.add("none")
     continuarPag.classList.remove("hide")
@@ -112,6 +115,7 @@ fecharConta.addEventListener("click", () => {
 })
     
 continuarPag.addEventListener("click", () => {
+  voltar.classList.add("none")
   if(selectTipos.value === "todos"){
     console.log("caiu aqui")
   }
@@ -122,6 +126,11 @@ continuarPag.addEventListener("click", () => {
     formasPagamento.classList.remove("none");
 })
 
+voltar.addEventListener("click", () =>{
+  selectProdutos.classList.remove("none")
+  fecharPedidoDiv.classList.add("none")
+  voltar.classList.add("none")
+})
 
 // EVENTO DO BOTÃO ZERAR CARRINHO
 buttonZerarCarrinho.addEventListener("click", () =>{
@@ -130,10 +139,11 @@ buttonZerarCarrinho.addEventListener("click", () =>{
 
 // ZERAR CARRINHO
 function zerarCarrinho(){
+  voltar.classList.add("none")
   selectProdutos.classList.remove("none")
   selectTipos.selectedIndex = 0
   zerarCheckboxes()
-fecharPedidoDiv.classList.add("none")
+  fecharPedidoDiv.classList.add("none")
 
   console.log("ZERAR")
   if(selectTipos.value === "todos"){
