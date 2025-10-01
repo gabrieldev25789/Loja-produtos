@@ -128,6 +128,8 @@ buttonZerarCarrinho.addEventListener("click", () =>{
 
 // ZERAR CARRINHO
 function zerarCarrinho(){
+  selectTipos.selectedIndex = 0
+  zerarCheckboxes()
 fecharPedidoDiv.classList.add("none")
 
   console.log("ZERAR")
@@ -257,7 +259,6 @@ function mostrarProdutos(nome, preco, imagem, precoPromocao, cor) {
   return div 
 }
 
-
 // FUNÇÃO QUE EXIBE PRODUTOS COM BASE NO TIPO SELECIONADO E NO FILTRO DE PROMOÇÃO
 function exibirProdutos(){
   const tipo = selectTipos.value 
@@ -341,7 +342,7 @@ function limparContainerExibirMsg(){
   containerProdutos.classList.remove("hide")
   }
 }
-
+ 
 // FUNÇÃO PARA MOSTRAR O PRODUTO PELO SEU TIPO (CALÇA, TÊNIS, BONÉ...)
 function mostrarProdutoPorTipo(){
   [formasPagamento, divCarrinho].forEach((el)=>{
@@ -449,12 +450,13 @@ function checarCheckboxes(){
   if(acima100.checked || abaixo100.checked){
     verificarCheckBoxes()
     esconderCarrinho()
+    containerProdutos.className = ""
+    divCarrinho.style.marginTop = "-20vh"
   } else{
     mostrarProdutoPorTipo()
   } 
 
   if(selectTipos.value === "todos"){
-    console.log("AQUI!")
     mostrarAll()
   } 
 
@@ -462,16 +464,11 @@ function checarCheckboxes(){
 }
 
 // EVENTOS DOS CHECKBOXES
-acima100.addEventListener("change", () => {
-  abaixo100.checked = false 
-  cores.forEach((c)=> c.classList.remove("select"))
-  checarCheckboxes()
-})
-
-abaixo100.addEventListener("change", () => {
-  acima100.checked = false 
-  cores.forEach((c)=> c.classList.remove("select"))
-  checarCheckboxes() 
+[acima100, abaixo100].forEach((el)=>{
+  el.addEventListener("change", () =>{
+    el.id === "acima-100" ? abaixo100.checked = false : acima100.checked = false
+    checarCheckboxes()
+  })
 })
 
 // FORMATAR PREÇO 
