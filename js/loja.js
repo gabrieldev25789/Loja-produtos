@@ -30,6 +30,9 @@ const voltar = document.querySelector("#voltar-loja")
 
 const fecharPedidoDiv = document.querySelector("#fechar-pedido")
 
+const produtosCarrinhoBtn = document.querySelector("#mostrar-produtos-carrinho")
+const containerProdutosCarrinho = document.querySelector("#container-produtos-carrinho")
+
 const produtos = {
   calca: [
     { tipo: "calca", nome: "Calça cargo", cor: "preto", preco: 189.90, promocao: true, precoPromocao: 49.90, src: "calcacargopreta.jpeg" },
@@ -231,16 +234,20 @@ function criarEstruturaProduto(nome, preco, imagem, cor, precoPromocao) {
   return div2;
 }
 
+let armazenar = []
 // FUNÇÃO QUE CRIA O BOTÃO DE ADICIONAR PRODUTO AO CARRINHO E CRIA A LOGICA DA FUNCIONALIDADE
 function criarBotaoCarrinho(nome, preco, precoPromocao) {
   const carrinho = document.createElement("button");
   carrinho.innerHTML = "Adicionar ao carrinho";
   carrinho.classList.add("carro");
+  carrinho.id = nome
 
   const lista = document.createElement("li");
   lista.id = "lista";
 
   carrinho.addEventListener("click", () => {
+    armazenar.push(carrinho.id)
+    verProdutosCarrinho(quantidade)
     quantidade++
     lista.innerHTML = nome;
 
@@ -252,13 +259,11 @@ function criarBotaoCarrinho(nome, preco, precoPromocao) {
       ? adicionarCarrinho(nome, quantidade, precoPromocao) 
       : adicionarCarrinho(nome, quantidade, preco);
   });
-
   return carrinho;
 }
 
-
 // FUNÇÃO QUE MOSTRA OS PRODUTOS
-function mostrarProdutos(nome, preco, imagem, precoPromocao, cor) {
+function mostrarProdutos(nome, preco, imagem, precoPromocao, cor){
   const div = document.createElement("div");
   div.id = "mostrar-produtos";
 
@@ -271,6 +276,37 @@ function mostrarProdutos(nome, preco, imagem, precoPromocao, cor) {
   containerProdutos.appendChild(div);
   return div 
 }
+
+
+function verProdutosCarrinho(qtdd){
+
+  const divVerCarrinho = document.createElement("div")
+  divVerCarrinho.id = "ver-produtos-carrinho"
+
+  const ulCarrinho = document.createElement("ul")
+  ulCarrinho.classList.add("ul-carrinho")
+
+  const listaProdutos = document.createElement("li"); 
+  listaProdutos.classList.add("lista-produtos-carrinho");
+  
+  armazenar.forEach((produto) => {
+  listaProdutos.textContent = produto;
+  });
+
+  /*containerProdutosCarrinho.appendChild(numero)*/
+  containerProdutosCarrinho.appendChild(divVerCarrinho)
+  ulCarrinho.appendChild(listaProdutos); // adiciona dentro da ul
+  divVerCarrinho.appendChild(ulCarrinho)
+  divVerCarrinho.style.backgroundColor = "red"
+
+  /*console.log(qntdProdutos)*/
+  console.log(containerProdutosCarrinho)
+  console.log(divVerCarrinho)
+}
+
+produtosCarrinhoBtn.addEventListener("click", () =>{
+  containerProdutosCarrinho.classList.toggle("none")
+})
 
 // FUNÇÃO QUE EXIBE PRODUTOS COM BASE NO TIPO SELECIONADO E NO FILTRO DE PROMOÇÃO
 function exibirProdutos(){
