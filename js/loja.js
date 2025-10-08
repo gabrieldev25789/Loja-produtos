@@ -87,6 +87,7 @@ function adicionarCarrinho(nome, quantidade, preco) {
 
 let etapa = 1; // controla se está fechando conta ou indo para pagamento
 
+
 // EVENTO DE FECHAR A CONTA DOS PRODUTOS ESCOLHIDOS
 fecharConta.addEventListener("click", () => {
     voltar.classList.remove("none")
@@ -236,7 +237,7 @@ function criarEstruturaProduto(nome, preco, imagem, cor, precoPromocao) {
 
 let armazenar = []
 // FUNÇÃO QUE CRIA O BOTÃO DE ADICIONAR PRODUTO AO CARRINHO E CRIA A LOGICA DA FUNCIONALIDADE
-function criarBotaoCarrinho(nome, preco, precoPromocao) {
+function criarBotaoCarrinho(nome, preco, precoPromocao, cor) {
   const carrinho = document.createElement("button");
   carrinho.innerHTML = "Adicionar ao carrinho";
   carrinho.classList.add("carro");
@@ -246,8 +247,12 @@ function criarBotaoCarrinho(nome, preco, precoPromocao) {
   lista.id = "lista";
 
   carrinho.addEventListener("click", () => {
+    produtosCarrinhoBtn.classList.remove("hide")
+
     armazenar.push(carrinho.id)
-    verProdutosCarrinho(quantidade)
+    precoPromocao 
+      ? verProdutosCarrinho(nome, cor, precoPromocao) 
+      : verProdutosCarrinho(nome, cor, preco)
     quantidade++
     lista.innerHTML = nome;
 
@@ -257,7 +262,7 @@ function criarBotaoCarrinho(nome, preco, precoPromocao) {
 
     precoPromocao
       ? adicionarCarrinho(nome, quantidade, precoPromocao) 
-      : adicionarCarrinho(nome, quantidade, preco);
+      : adicionarCarrinho(nome, quantidade, preco)
   });
   return carrinho;
 }
@@ -268,7 +273,7 @@ function mostrarProdutos(nome, preco, imagem, precoPromocao, cor){
   div.id = "mostrar-produtos";
 
   const estruturaProduto = criarEstruturaProduto(nome, preco, imagem, cor, precoPromocao);
-  const botaoCarrinho = criarBotaoCarrinho(nome, preco, precoPromocao);
+  const botaoCarrinho = criarBotaoCarrinho(nome, preco, precoPromocao, cor);
 
   estruturaProduto.appendChild(botaoCarrinho);
   div.appendChild(estruturaProduto);
@@ -278,31 +283,60 @@ function mostrarProdutos(nome, preco, imagem, precoPromocao, cor){
 }
 
 
-function verProdutosCarrinho(qtdd){
+function verProdutosCarrinho(nome, cor, preco) {
+  const divVerCarrinho = document.createElement("div");
+  divVerCarrinho.id = "ver-produtos-carrinho";
 
-  const divVerCarrinho = document.createElement("div")
-  divVerCarrinho.id = "ver-produtos-carrinho"
+  const ulCarrinho = document.createElement("ul");
+  ulCarrinho.classList.add("ul-carrinho");
 
-  const ulCarrinho = document.createElement("ul")
-  ulCarrinho.classList.add("ul-carrinho")
+  const item = criarItemCarrinho(nome, cor, preco);
+  const botao = criarBotaoRemover(item, preco);
 
-  const listaProdutos = document.createElement("li"); 
-  listaProdutos.classList.add("lista-produtos-carrinho");
-  
-  armazenar.forEach((produto) => {
-  listaProdutos.textContent = produto;
-  });
+  item.appendChild(botao);
+  ulCarrinho.appendChild(item);
+  divVerCarrinho.appendChild(ulCarrinho);
+  divVerCarrinho.style.backgroundColor = "red";
 
-  /*containerProdutosCarrinho.appendChild(numero)*/
-  containerProdutosCarrinho.appendChild(divVerCarrinho)
-  ulCarrinho.appendChild(listaProdutos); // adiciona dentro da ul
-  divVerCarrinho.appendChild(ulCarrinho)
-  divVerCarrinho.style.backgroundColor = "red"
-
-  /*console.log(qntdProdutos)*/
-  console.log(containerProdutosCarrinho)
-  console.log(divVerCarrinho)
+  containerProdutosCarrinho.appendChild(divVerCarrinho);
 }
+
+function criarItemCarrinho(nome, cor, preco) {
+  const li = document.createElement("li");
+  li.classList.add("lista-produtos-carrinho");
+  li.textContent = `${nome}, cor: ${cor}, preço: ${formatarPreco(preco)}`;
+  li.dataset.nome = nome;
+  li.dataset.cor = cor;
+  li.dataset.preco = preco;
+  return li;
+}
+
+function criarBotaoRemover(item, preco) {
+  const botao = document.createElement("button");
+  botao.textContent = "x";
+  botao.classList.add("remover-produto");
+  botao.style.backgroundColor = "green";
+
+  botao.addEventListener("click", () => removerProduto(item, preco));
+  return botao;
+}
+
+function removerProduto(item, preco) {
+  item.remove();
+  precoCount -= preco;
+  quantidade--;
+
+  if (quantidade > 1) {
+    carrinhoCompra.textContent = `quantidade de produtos: ${quantidade} produtos`;
+  } else if (quantidade === 1) {
+    carrinhoCompra.textContent = `quantidade de produtos: ${quantidade} produto`;
+  } else {
+    carrinhoCompra.textContent = `carrinho zerado`;
+  }
+
+  contarPreco.innerHTML = `Total: R$ ${precoCount.toFixed(2)}`;
+}
+
 
 produtosCarrinhoBtn.addEventListener("click", () =>{
   containerProdutosCarrinho.classList.toggle("none")
