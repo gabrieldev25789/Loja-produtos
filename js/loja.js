@@ -70,6 +70,11 @@ let produto = 0
 fecharPedidoDiv.classList.add("none")
 // FUNÇÃO PARA ADICIONAR PRODUTOS NO CARRINHO
 function adicionarCarrinho(nome, quantidade, preco) {
+
+  produtosCarrinhoBtn.classList.remove("none")
+  produtosCarrinhoBtn.classList.remove("red")
+  produtosCarrinhoBtn.textContent = "Mostrar produtos no carrinho"
+
   divCarrinho.style.marginTop = "0vh"
   fecharPedidoDiv.classList.remove("none")
   divCarrinho.classList.remove("none")
@@ -296,7 +301,6 @@ function verProdutosCarrinho(nome, cor, preco) {
   item.appendChild(botao);
   ulCarrinho.appendChild(item);
   divVerCarrinho.appendChild(ulCarrinho);
-  divVerCarrinho.style.backgroundColor = "red";
 
   containerProdutosCarrinho.appendChild(divVerCarrinho);
 }
@@ -315,8 +319,7 @@ function criarBotaoRemover(item, preco) {
   const botao = document.createElement("button");
   botao.textContent = "x";
   botao.classList.add("remover-produto");
-  botao.style.backgroundColor = "green";
-
+  
   botao.addEventListener("click", () => removerProduto(item, preco));
   return botao;
 }
@@ -334,12 +337,23 @@ function removerProduto(item, preco) {
     carrinhoCompra.textContent = `carrinho zerado`;
   }
 
+  if(quantidade === 0){
+    containerProdutosCarrinho.classList.add("none")
+    produtosCarrinhoBtn.classList.add("none")
+  }
+
   contarPreco.innerHTML = `Total: R$ ${precoCount.toFixed(2)}`;
 }
 
-
-produtosCarrinhoBtn.addEventListener("click", () =>{
+produtosCarrinhoBtn.addEventListener("click", () => {
   containerProdutosCarrinho.classList.toggle("none")
+  if(!containerProdutosCarrinho.classList.contains("none")){
+    produtosCarrinhoBtn.textContent = "Fechar carrinho"
+    produtosCarrinhoBtn.classList.add("red")
+  } else{
+    produtosCarrinhoBtn.textContent = "Mostrar produtos no carrinho"
+    produtosCarrinhoBtn.classList.remove("red")
+  }
 })
 
 // FUNÇÃO QUE EXIBE PRODUTOS COM BASE NO TIPO SELECIONADO E NO FILTRO DE PROMOÇÃO
@@ -459,7 +473,8 @@ function esconderCarrinho(){
 // EVENTOS DOS SELECTS
 [selectFiltros, selectTipos].forEach((select)=>{
       select.addEventListener("change", (e)=>{
-      divCarrinho.style.marginTop = "-30vh"
+      fecharPedidoDiv.classList.add("none")
+      divCarrinho.style.marginTop = "-110vh"
       containerProdutos.classList.remove("none")
       continuarPag.classList.add("hide")
       zerarCheckboxes(); // Limpa os checkboxes sempre que muda o tipo
@@ -549,7 +564,7 @@ function checarCheckboxes(){
 
 // EVENTOS DOS CHECKBOXES
 [acima100, abaixo100].forEach((el)=>{
-  el.addEventListener("change", () =>{
+  el.addEventListener("change", () => {
     el.id === "acima-100" ? abaixo100.checked = false : acima100.checked = false
     checarCheckboxes()
   })
