@@ -67,13 +67,27 @@ let quantidade = 0;
 let precoCount = 0;
 let produto = 0 
 
+function limpar(){
+  if(!produtosCarrinhoBtn.classList.contains("hide")){
+    console.log("limnpo")
+    continuarPag.classList.add("none")
+  } else{
+    continuarPag.classList.remove("none")
+  }
+}
+limpar()
+
 fecharPedidoDiv.classList.add("none")
 // FUNÇÃO PARA ADICIONAR PRODUTOS NO CARRINHO
 function adicionarCarrinho(nome, quantidade, preco) {
-
   produtosCarrinhoBtn.classList.remove("none")
-  produtosCarrinhoBtn.classList.remove("red")
-  produtosCarrinhoBtn.textContent = "Mostrar produtos no carrinho"
+
+  if(containerProdutosCarrinho.classList.contains("none")){
+    produtosCarrinhoBtn.classList.remove("red")
+    if(produtosCarrinhoBtn.classList.contains("red")){
+    produtosCarrinhoBtn.textContent = "Fechar carrinho"
+    }
+}
 
   divCarrinho.style.marginTop = "0vh"
   fecharPedidoDiv.classList.remove("none")
@@ -92,15 +106,15 @@ function adicionarCarrinho(nome, quantidade, preco) {
 
 let etapa = 1; // controla se está fechando conta ou indo para pagamento
 
-
 // EVENTO DE FECHAR A CONTA DOS PRODUTOS ESCOLHIDOS
 fecharConta.addEventListener("click", () => {
     voltar.classList.remove("none")
     divCarrinho.style.marginTop = "4rem"
     selectProdutos.classList.add("none")
-    continuarPag.classList.remove("hide")
+
+     continuarPag.classList.remove("hide")
     fecharConta.classList.add("hide")  
-  
+
     if(selectTipos.value === "todos"){
     containerProdutos.classList.add("none")
     } 
@@ -122,7 +136,9 @@ fecharConta.addEventListener("click", () => {
   } 
     }
 })
-    
+
+
+
 continuarPag.addEventListener("click", () => {
   voltar.classList.add("none")
   if(selectTipos.value === "todos"){
@@ -136,6 +152,9 @@ continuarPag.addEventListener("click", () => {
 })
 
 voltar.addEventListener("click", () =>{
+  mostrarProdutosCarrinho.classList.remove("red")
+  mostrarProdutosCarrinho.textContent = "Mostrar produtos no carrinho"
+  containerProdutosCarrinho.classList.add("none")
   selectProdutos.classList.remove("none")
   fecharPedidoDiv.classList.add("none")
   voltar.classList.add("none")
@@ -159,8 +178,9 @@ function zerarCarrinho(){
     divCarrinho.style.marginTop = "0vh"
     console.log("zerar")
   } 
-  [continuarPag, verProdutos, formasPagamento, fecharConta].forEach((el) => el.classList.add("hide"))
-
+  [continuarPag, formasPagamento, fecharConta].forEach((el) => el.classList.add("hide"))
+  containerProdutosCarrinho.innerHTML = ""
+  mostrarProdutosCarrinho.classList.add("hide")
   divCarrinho.style.marginTop = "0vh"
   containerProdutos.classList.add("margin2")
   quantidade = 0
@@ -301,9 +321,11 @@ function verProdutosCarrinho(nome, cor, preco) {
   item.appendChild(botao);
   ulCarrinho.appendChild(item);
   divVerCarrinho.appendChild(ulCarrinho);
+  divVerCarrinho.style.backgroundColor = "red";
 
   containerProdutosCarrinho.appendChild(divVerCarrinho);
 }
+
 
 function criarItemCarrinho(nome, cor, preco) {
   const li = document.createElement("li");
@@ -319,6 +341,8 @@ function criarBotaoRemover(item, preco) {
   const botao = document.createElement("button");
   botao.textContent = "x";
   botao.classList.add("remover-produto");
+  botao.style.backgroundColor = "green";
+
   
   botao.addEventListener("click", () => removerProduto(item, preco));
   return botao;
@@ -353,8 +377,7 @@ produtosCarrinhoBtn.addEventListener("click", () => {
   } else{
     produtosCarrinhoBtn.textContent = "Mostrar produtos no carrinho"
     produtosCarrinhoBtn.classList.remove("red")
-  }
-})
+}})
 
 // FUNÇÃO QUE EXIBE PRODUTOS COM BASE NO TIPO SELECIONADO E NO FILTRO DE PROMOÇÃO
 function exibirProdutos(){
@@ -371,7 +394,7 @@ function exibirProdutos(){
     const produtoValue = produtos[valor]
 
     if(tipo === valor){
-    
+
       containerProdutos.innerHTML = ""
 
       produtoValue.forEach((produto)=>{
@@ -439,7 +462,7 @@ function limparContainerExibirMsg(){
   containerProdutos.classList.remove("hide")
   }
 }
- 
+
 // FUNÇÃO PARA MOSTRAR O PRODUTO PELO SEU TIPO (CALÇA, TÊNIS, BONÉ...)
 function mostrarProdutoPorTipo(){
   [formasPagamento, divCarrinho].forEach((el)=>{
@@ -454,7 +477,7 @@ function mostrarProdutoPorTipo(){
 
     produtoValue.forEach((produto)=>{
     containerProdutos.classList.remove("hide")
-    
+
     if(tipo === produto.tipo){
     mostrarProdutos(produto.nome, produto.preco, produto.src, produto.precoPromocao, produto.cor)
       }
@@ -473,6 +496,10 @@ function esconderCarrinho(){
 // EVENTOS DOS SELECTS
 [selectFiltros, selectTipos].forEach((select)=>{
       select.addEventListener("change", (e)=>{
+      containerProdutosCarrinho.classList.add("none")
+      produtosCarrinhoBtn.classList.remove("red")
+      produtosCarrinhoBtn.textContent = "Mostrar produtos no carrinho"
+      divCarrinho.style.marginTop = "-30vh"
       fecharPedidoDiv.classList.add("none")
       divCarrinho.style.marginTop = "-110vh"
       containerProdutos.classList.remove("none")
@@ -564,14 +591,12 @@ function checarCheckboxes(){
 
 // EVENTOS DOS CHECKBOXES
 [acima100, abaixo100].forEach((el)=>{
-  el.addEventListener("change", () => {
+  el.addEventListener("change", () =>{
     el.id === "acima-100" ? abaixo100.checked = false : acima100.checked = false
     checarCheckboxes()
   })
 })
 
-// FORMATAR PREÇO 
 function formatarPreco(valor){
   return Number(valor).toFixed(2).replace('.', ',');
 }
-
