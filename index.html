@@ -21,7 +21,12 @@
         </ul>
   </div>
 </div>
-
+<section> 
+  <div id="button-mostrar">
+        <button id="mostrar-produtos-carrinho" class="hide">Mostrar produtos no carrinho</button>
+    </div>
+       <div id="container-produtos-carrinho" class="none"></div>
+</section>
 <main>
       <div id="produtos">
             <div id="produtos-container">
@@ -77,42 +82,41 @@
 
        <div id="fechar-pedido">
         <button id="fechar-conta">Fechar pedido</button>
-        <button id="continuar-pag" class="hide">Continuar para o pagamento</button>
+        <button id="continuar-pag" class="hide">Continuar para o pagamento <img class="seta" src="./img/angulo-duplo-pequeno-direito.png" alt=""></button>
        </div>
        <div id="voltar-loja" class="none">
-        <button id="voltar">Voltar para a loja</button>
+        <button id="voltar">Voltar para a loja <img class="seta" id="esquerda" src="./img/angulo-duplo-pequeno-esquerdo.png" alt=""></button>
        </div>
 
        <div id="formas-pagamento" class="hide">
         <h2>Qual será sua forma de pagamento?</h2>
         <div id="pag1">
-          <img src="./img/aura.jpg" alt="" class="img-pag">
-          <p class="forma-pag">PIX</p>
+          <img src="./img/pix.png" alt="" class="img-pag">
+          <button class="forma-pag">PIX</button>
         </div>
 
         <div id="pag2">
-          <img src="./img/aura.jpg" alt="" class="img-pag">
-          <p class="forma-pag">DEBITO</p>
+          <img src="./img/debito.png" alt="" class="img-pag">
+          <button class="forma-pag">DEBITO</button>
         </div>
 
         <div id="pag3">
-          <img src="./img/aura.jpg" alt="" class="img-pag">
-          <p class="forma-pag">CREDITO</p>
+          <img src="./img/credito.png" alt="" class="img-pag">
+          <button class="forma-pag">CREDITO</button>
         </div>
 
         <div id="pag4">
-          <img src="./img/aura.jpg" alt="" class="img-pag">
-          <p class="forma-pag">BOLETO</p>
+          <img src="./img/boleto.png" alt="" class="img-pag">
+          <button class="forma-pag">BOLETO</button>
         </div>
 
         <div id="ver-carrinho">
-          <button id="ver-produtos-carrinho" class="forma-pag">Ver produtos no carrinho</button>
+          <!--<button id="ver-produtos-carrinho" class="forma-pag">Ver produtos no carrinho</button> -->
           <button id="zerar-carrinho">ZERAR CARRINHO</button>
-          <p id="mostrar-produtos-carrinho"></p>
         </div>
        </div>
+    
     </main>
 </body>
-</html> 
-
+</html>
 
