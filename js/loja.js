@@ -67,26 +67,35 @@ let quantidade = 0;
 let precoCount = 0;
 let produto = 0 
 
+
+/*
 function limpar(){
+  if(carrinhoCompra.textContent === "Cerrinho zerado"){
+    console.log("zerou carrinho")
+  }
   if(!produtosCarrinhoBtn.classList.contains("hide")){
     console.log("limnpo")
     continuarPag.classList.add("none")
   } else{
     continuarPag.classList.remove("none")
   }
-}
-limpar()
+}*/
 
 fecharPedidoDiv.classList.add("none")
 // FUNÇÃO PARA ADICIONAR PRODUTOS NO CARRINHO
 function adicionarCarrinho(nome, quantidade, preco) {
+
+  fecharConta.classList.remove("none")  
+  continuarPag.classList.add("none")
+
+  continuarPag.classList.add("none")
   produtosCarrinhoBtn.classList.remove("none")
 
   if(containerProdutosCarrinho.classList.contains("none")){
     produtosCarrinhoBtn.classList.remove("red")
     if(produtosCarrinhoBtn.classList.contains("red")){
     produtosCarrinhoBtn.textContent = "Fechar carrinho"
-    }
+  }
 }
 
   divCarrinho.style.marginTop = "0vh"
@@ -108,12 +117,13 @@ let etapa = 1; // controla se está fechando conta ou indo para pagamento
 
 // EVENTO DE FECHAR A CONTA DOS PRODUTOS ESCOLHIDOS
 fecharConta.addEventListener("click", () => {
+    fecharConta.classList.add("none")  
+  continuarPag.classList.remove("none")
     voltar.classList.remove("none")
     divCarrinho.style.marginTop = "4rem"
     selectProdutos.classList.add("none")
 
      continuarPag.classList.remove("hide")
-    fecharConta.classList.add("hide")  
 
     if(selectTipos.value === "todos"){
     containerProdutos.classList.add("none")
@@ -137,14 +147,13 @@ fecharConta.addEventListener("click", () => {
     }
 })
 
-
-
 continuarPag.addEventListener("click", () => {
+  continuarPag.classList.add("hide")
   voltar.classList.add("none")
   if(selectTipos.value === "todos"){
     console.log("caiu aqui")
   }
-    console.log("continuar")
+    logicaVoltarContinuar()
     containerProdutos.classList.add("hide")
     divCarrinho.classList.add("margin")
     formasPagamento.classList.remove("hide");
@@ -326,7 +335,6 @@ function verProdutosCarrinho(nome, cor, preco) {
   containerProdutosCarrinho.appendChild(divVerCarrinho);
 }
 
-
 function criarItemCarrinho(nome, cor, preco) {
   const li = document.createElement("li");
   li.classList.add("lista-produtos-carrinho");
@@ -348,6 +356,11 @@ function criarBotaoRemover(item, preco) {
   return botao;
 }
 
+function logicaVoltarContinuar(){
+    formasPagamento.classList.add("none")
+    voltar.classList.remove("none")
+}
+
 function removerProduto(item, preco) {
   item.remove();
   precoCount -= preco;
@@ -359,6 +372,13 @@ function removerProduto(item, preco) {
     carrinhoCompra.textContent = `quantidade de produtos: ${quantidade} produto`;
   } else {
     carrinhoCompra.textContent = `carrinho zerado`;
+    logicaVoltarContinuar()
+  }
+
+  if(carrinhoCompra.textContent === "carrinho zerado"){
+   continuarPag.classList.add("hide")
+    continuarPag.classList.add("none")
+    fecharConta.classList.add("hide")
   }
 
   if(quantidade === 0){
