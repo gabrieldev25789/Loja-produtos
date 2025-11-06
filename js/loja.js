@@ -67,23 +67,13 @@ let quantidade = 0;
 let precoCount = 0;
 let produto = 0 
 
-
-/*
-function limpar(){
-  if(carrinhoCompra.textContent === "Cerrinho zerado"){
-    console.log("zerou carrinho")
-  }
-  if(!produtosCarrinhoBtn.classList.contains("hide")){
-    console.log("limnpo")
-    continuarPag.classList.add("none")
-  } else{
-    continuarPag.classList.remove("none")
-  }
-}*/
-
 fecharPedidoDiv.classList.add("none")
 // FUNÇÃO PARA ADICIONAR PRODUTOS NO CARRINHO
 function adicionarCarrinho(nome, quantidade, preco) {
+
+  if(produtosCarrinhoBtn.classList.contains("none")){
+    produtosCarrinhoBtn.textContent = "Mostrar produtos no carrinho"
+  }
 
   fecharConta.classList.remove("none")  
   continuarPag.classList.add("none")
@@ -161,6 +151,7 @@ continuarPag.addEventListener("click", () => {
 })
 
 voltar.addEventListener("click", () =>{
+  formasPagamento.classList.add("none")
   mostrarProdutosCarrinho.classList.remove("red")
   mostrarProdutosCarrinho.textContent = "Mostrar produtos no carrinho"
   containerProdutosCarrinho.classList.add("none")
@@ -176,6 +167,7 @@ buttonZerarCarrinho.addEventListener("click", () =>{
 
 // ZERAR CARRINHO
 function zerarCarrinho(){
+  containerProdutosCarrinho.classList.add("none")
   voltar.classList.add("none")
   selectProdutos.classList.remove("none")
   selectTipos.selectedIndex = 0
@@ -357,8 +349,12 @@ function criarBotaoRemover(item, preco) {
 }
 
 function logicaVoltarContinuar(){
+    if(!containerProdutos.classList.contains("none")){
+      voltar.classList.add("none")
+    } else{
+      voltar.classList.remove("none")
+    }
     formasPagamento.classList.add("none")
-    voltar.classList.remove("none")
 }
 
 function removerProduto(item, preco) {
