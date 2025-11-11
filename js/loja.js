@@ -66,22 +66,27 @@ const produtos = {
 }
 
 let quantidade = 0;
-let precoCount = 0;
+let precoCount = 0
 let produto = 0 
+
+const p = document.createElement("p")
+p.id = "p"
+
 
 fecharPedidoDiv.classList.add("none")
 // FUNÇÃO PARA ADICIONAR PRODUTOS NO CARRINHO
 function adicionarCarrinho(nome, quantidade, preco) {
 
+
   if(produtosCarrinhoBtn.classList.contains("none")){
     produtosCarrinhoBtn.textContent = "Mostrar produtos no carrinho"
   }
 
-  fecharConta.classList.remove("none")  
+  fecharConta.classList.remove("none") 
   continuarPag.classList.add("none")
 
-  continuarPag.classList.add("none")
   produtosCarrinhoBtn.classList.remove("none")
+
 
   if(containerProdutosCarrinho.classList.contains("none")){
     produtosCarrinhoBtn.classList.remove("red")
@@ -90,9 +95,11 @@ function adicionarCarrinho(nome, quantidade, preco) {
   }
 }
 
-  divCarrinho.style.marginTop = "0vh"
+  divCarrinho.style.marginTop = "2.5rem"
+
   fecharPedidoDiv.classList.remove("none")
   divCarrinho.classList.remove("none")
+
   // soma o preço ao total acumulado
   precoCount += preco;
 
@@ -101,21 +108,28 @@ function adicionarCarrinho(nome, quantidade, preco) {
     Produto adicionado: ${nome} </br>
     Quantidade total: ${quantidade} ${quantidade === 1 ? "produto" : "produtos"}
   `
+    p.textContent = quantidade
+    document.body.appendChild(p)
   // mostra o total acumulado (não só o último preço)
   contarPreco.innerHTML = `Total: R$ ${precoCount.toFixed(2)}`
+
+  if(!fecharConta.classList.contains("hide")){
+  document.body.classList.add("bodyPadding")
+  }
 }
+
 
 let etapa = 1; // controla se está fechando conta ou indo para pagamento
 
 // EVENTO DE FECHAR A CONTA DOS PRODUTOS ESCOLHIDOS
 fecharConta.addEventListener("click", () => {
-    fecharConta.classList.add("none")  
+    fecharConta.classList.add("none") 
     continuarPag.classList.remove("none")
     voltar.classList.remove("none")
     divCarrinho.style.marginTop = "4rem"
     selectProdutos.classList.add("none")
 
-     continuarPag.classList.remove("hide")
+    continuarPag.classList.remove("hide")
 
     if(selectTipos.value === "todos"){
     containerProdutos.classList.add("none")
@@ -133,6 +147,7 @@ fecharConta.addEventListener("click", () => {
       contarPreco.innerHTML = `Total dos produtos: R$ ${precoCount.toFixed(2)}`
       carrinhoCompra.innerHTML = `Quantidade de produtos: ${quantidade} produtos`
     }
+
     containerProdutos.classList.add("none");
     divCarrinho.classList.add("margin");
   } 
@@ -140,7 +155,11 @@ fecharConta.addEventListener("click", () => {
 })
 
 continuarPag.addEventListener("click", () => {
-  continuarPag.classList.add("hide")
+  continuarPagLogica()
+})
+
+function continuarPagLogica(){
+continuarPag.classList.add("hide")
   voltar.classList.add("none")
   if(selectTipos.value === "todos"){
     console.log("caiu aqui")
@@ -150,23 +169,41 @@ continuarPag.addEventListener("click", () => {
     divCarrinho.classList.add("margin")
     formasPagamento.classList.remove("hide");
     formasPagamento.classList.remove("none");
-})
+}
 
 voltar.addEventListener("click", () =>{
-  formasPagamento.classList.add("none")
+  document.body.classList.remove("bodyPadding")
+  voltarLogica()
+})
+
+function voltarLogica(){
+  [formasPagamento, containerProdutosCarrinho, fecharPedidoDiv, voltar].forEach((el)=>{
+    el.classList.add("none")
+  })
+  selectTipos.selectedIndex = 0
+  zerarCheckboxes()
   mostrarProdutosCarrinho.classList.remove("red")
   mostrarProdutosCarrinho.textContent = "Mostrar produtos no carrinho"
-  containerProdutosCarrinho.classList.add("none")
   selectProdutos.classList.remove("none")
-  fecharPedidoDiv.classList.add("none")
   produtosCarrinhoBtn.classList.add("hide")
-  voltar.classList.add("none")
-})
+}
+
 
 // EVENTO DO BOTÃO ZERAR CARRINHO
 buttonZerarCarrinho.addEventListener("click", () =>{
+  document.body.classList.remove("bodyPadding")
   zerarCarrinho()
 })
+
+function zerar(){
+ quantidade = 0
+  precoCount = 0 
+  p.textContent = quantidade
+  carrinhoCompra.innerHTML = "Carrinho zerado"
+  contarPreco.innerHTML = `Total: R$ 0.00`
+  formasPagamento.classList.add("none")
+  if(quantidade <= 0) return 
+}
 
 // ZERAR CARRINHO
 function zerarCarrinho(){
@@ -177,24 +214,14 @@ function zerarCarrinho(){
   zerarCheckboxes()
   fecharPedidoDiv.classList.add("none")
 
-  console.log("ZERAR")
   if(selectTipos.value === "todos"){
     divCarrinho.style.marginTop = "0vh"
-    console.log("zerar")
   } 
-  [continuarPag, formasPagamento, fecharConta].forEach((el) => el.classList.add("hide"))
+  [continuarPag, formasPagamento, fecharConta, mostrarProdutosCarrinho].forEach((el) => el.classList.add("hide"))
   containerProdutosCarrinho.innerHTML = ""
-  mostrarProdutosCarrinho.classList.add("hide")
   divCarrinho.style.marginTop = "0vh"
   containerProdutos.classList.add("margin2")
-  quantidade = 0
-  precoCount = 0 
-  carrinhoCompra.innerHTML = "Quantidade de produtos: 0"
-  contarPreco.innerHTML = `Total: R$ 0`
-  formasPagamento.classList.add("hide")
-  formasPagamento.classList.add("none")
-  quantidade = 0
-  if(quantidade <= 0) return 
+  zerar()
 }
 
 // FUNÇÃO PARA CALCULAR O VALOR TOTAL DOS PRODUTOS COM BASE NA FORMA DE PAGAMENTO
@@ -346,7 +373,6 @@ function criarBotaoRemover(item, preco) {
   botao.classList.add("remover-produto");
   botao.style.backgroundColor = "green";
 
-  
   botao.addEventListener("click", () => removerProduto(item, preco));
   return botao;
 }
@@ -364,6 +390,8 @@ function removerProduto(item, preco) {
   item.remove();
   precoCount -= preco;
   quantidade--;
+  p.textContent = quantidade
+
 
   if (quantidade > 1) {
     carrinhoCompra.textContent = `quantidade de produtos: ${quantidade} produtos`
@@ -375,17 +403,15 @@ function removerProduto(item, preco) {
   }
 
   if(carrinhoCompra.textContent === "carrinho zerado"){
-   continuarPag.classList.add("hide")
+    [continuarPag, fecharConta].forEach((el) => el.classList.add("hide"))
     continuarPag.classList.add("none")
-    fecharConta.classList.add("hide")
   }
 
   if(quantidade === 0){
-    containerProdutosCarrinho.classList.add("none")
-    produtosCarrinhoBtn.classList.add("none")
+    [containerProdutosCarrinho,produtosCarrinhoBtn].forEach((el)=> el.classList.add("none"))
   }
-
-  contarPreco.innerHTML = `Total: R$ ${precoCount.toFixed(2)}`
+    if (Math.abs(precoCount) < 0.01) precoCount = 0;
+    contarPreco.innerHTML = `Total: R$ ${precoCount.toFixed(2)}`
 }
 
 produtosCarrinhoBtn.addEventListener("click", () => {
