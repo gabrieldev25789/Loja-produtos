@@ -20,7 +20,6 @@ formasPagamento.classList.add("none")
 formasPagamento.classList.add("hide")
 const pagamento = document.querySelectorAll(".forma-pag")
 
-const verProdutos = document.querySelector("#ver-produtos-carrinho")
 const mostrarProdutosCarrinho = document.querySelector("#mostrar-produtos-carrinho")
 const buttonZerarCarrinho = document.querySelector("#zerar-carrinho")
 
@@ -34,6 +33,10 @@ const produtosCarrinhoBtn = document.querySelector("#mostrar-produtos-carrinho")
 const containerProdutosCarrinho = document.querySelector("#container-produtos-carrinho")
 
 const containerAviso = document.querySelector("#container-aviso")
+
+const formaPagH2 = document.createElement("h2")
+formaPagH2.id = "forma-pag-h2"
+formaPagH2.textContent = "Escolha sua forma de pagamento:"
 
 const produtos = {
   calca: [
@@ -69,14 +72,10 @@ let quantidade = 0;
 let precoCount = 0
 let produto = 0 
 
-const p = document.createElement("p")
-p.id = "p"
-
 
 fecharPedidoDiv.classList.add("none")
 // FUNÇÃO PARA ADICIONAR PRODUTOS NO CARRINHO
 function adicionarCarrinho(nome, quantidade, preco) {
-
 
   if(produtosCarrinhoBtn.classList.contains("none")){
     produtosCarrinhoBtn.textContent = "Mostrar produtos no carrinho"
@@ -87,7 +86,7 @@ function adicionarCarrinho(nome, quantidade, preco) {
 
   produtosCarrinhoBtn.classList.remove("none")
 
-
+  
   if(containerProdutosCarrinho.classList.contains("none")){
     produtosCarrinhoBtn.classList.remove("red")
     if(produtosCarrinhoBtn.classList.contains("red")){
@@ -108,14 +107,12 @@ function adicionarCarrinho(nome, quantidade, preco) {
     Produto adicionado: ${nome} </br>
     Quantidade total: ${quantidade} ${quantidade === 1 ? "produto" : "produtos"}
   `
-    p.textContent = quantidade
-    document.body.appendChild(p)
   // mostra o total acumulado (não só o último preço)
   contarPreco.innerHTML = `Total: R$ ${precoCount.toFixed(2)}`
 
   if(!fecharConta.classList.contains("hide")){
   document.body.classList.add("bodyPadding")
-  }
+  } 
 }
 
 
@@ -169,6 +166,7 @@ continuarPag.classList.add("hide")
     divCarrinho.classList.add("margin")
     formasPagamento.classList.remove("hide");
     formasPagamento.classList.remove("none");
+    document.body.appendChild(formaPagH2)
 }
 
 voltar.addEventListener("click", () =>{
@@ -198,7 +196,6 @@ buttonZerarCarrinho.addEventListener("click", () =>{
 function zerar(){
  quantidade = 0
   precoCount = 0 
-  p.textContent = quantidade
   carrinhoCompra.innerHTML = "Carrinho zerado"
   contarPreco.innerHTML = `Total: R$ 0.00`
   formasPagamento.classList.add("none")
@@ -339,31 +336,56 @@ function mostrarProdutos(nome, preco, imagem, precoPromocao, cor){
 }
 
 
+// ======== A PARTIR DAQUI: ajustes do carrinho (mantive o resto igual) ========
+
+// Garante ou retorna a UL principal do carrinho (uma única na container)
+function obterUlCarrinho() {
+  let ul = containerProdutosCarrinho.querySelector("ul.ul-carrinho");
+  if (!ul) {
+    ul = document.createElement("ul");
+    ul.classList.add("ul-carrinho");
+    containerProdutosCarrinho.appendChild(ul);
+  }
+  return ul;
+}
+
 function verProdutosCarrinho(nome, cor, preco) {
-  const divVerCarrinho = document.createElement("div");
-  divVerCarrinho.id = "ver-produtos-carrinho";
+  const ulCarrinho = obterUlCarrinho();
 
-  const ulCarrinho = document.createElement("ul");
-  ulCarrinho.classList.add("ul-carrinho");
+  // procurar item existente (comparando dataset.nome e dataset.cor)
+  let existing = null;
+  Array.from(ulCarrinho.children).forEach(li => {
+    if (li.dataset && li.dataset.nome === nome && li.dataset.cor === cor) {
+      existing = li;
+    }
+  });
 
-  const item = criarItemCarrinho(nome, cor, preco);
-  const botao = criarBotaoRemover(item, preco);
-
-  item.appendChild(botao);
-  ulCarrinho.appendChild(item);
-  divVerCarrinho.appendChild(ulCarrinho);
-  divVerCarrinho.style.backgroundColor = "red";
-
-  containerProdutosCarrinho.appendChild(divVerCarrinho);
+  if (existing) {
+    // já existe: incrementar quantidade no dataset e atualizar texto
+    const atual = Number(existing.dataset.quantidade || 1) + 1;
+    existing.dataset.quantidade = atual;
+    // atualiza exibição (mostra xN)
+    existing.textContent = `${nome} (x${atual}), cor: ${cor}, preço: ${formatarPreco(Number(existing.dataset.preco))}`;
+    // reapenda botão remover (textContent o remove)
+    const botao = criarBotaoRemover(existing, Number(existing.dataset.preco));
+    existing.appendChild(botao);
+  } else {
+    // não existe: cria novo LI com dataset e botão
+    const item = criarItemCarrinho(nome, cor, preco);
+    const botao = criarBotaoRemover(item, preco);
+    item.appendChild(botao);
+    ulCarrinho.appendChild(item);
+  }
 }
 
 function criarItemCarrinho(nome, cor, preco) {
   const li = document.createElement("li");
   li.classList.add("lista-produtos-carrinho");
-  li.textContent = `${nome}, cor: ${cor}, preço: ${formatarPreco(preco)}`
+  li.textContent = `${nome} (x1), cor: ${cor}, preço: ${formatarPreco(preco)}`
   li.dataset.nome = nome;
   li.dataset.cor = cor;
   li.dataset.preco = preco;
+  li.dataset.quantidade = 1;
   return li;
 }
 
@@ -371,11 +393,62 @@ function criarBotaoRemover(item, preco) {
   const botao = document.createElement("button");
   botao.textContent = "x";
   botao.classList.add("remover-produto");
-  botao.style.backgroundColor = "green";
 
   botao.addEventListener("click", () => removerProduto(item, preco));
   return botao;
 }
+
+function removerProduto(item, preco) {
+  // item pode ser <li> ou objeto que contenha dataset
+  const li = item;
+  const precoUnit = Number(preco);
+
+  // se li não tem dataset.quantidade, tenta obter do dataset
+  let qtd = Number(li.dataset.quantidade || 1);
+
+  if (qtd > 1) {
+    // decrementar quantidade e atualizar texto
+    qtd--;
+    li.dataset.quantidade = qtd;
+    li.textContent = `${li.dataset.nome} (x${qtd}), cor: ${li.dataset.cor}, preço: ${formatarPreco(Number(li.dataset.preco))}`;
+    // reapenda botão (textContent remove filhos)
+    const botao = criarBotaoRemover(li, Number(li.dataset.preco));
+    li.appendChild(botao);
+
+    // atualizar totais globais
+    precoCount -= precoUnit;
+    quantidade--;
+    if (quantidade > 1) {
+      carrinhoCompra.textContent = `quantidade de produtos: ${quantidade} produtos`
+    } else if (quantidade === 1) {
+      carrinhoCompra.textContent = `quantidade de produtos: ${quantidade} produto`
+    }
+  } else {
+    // remover completamente
+    li.remove();
+    precoCount -= precoUnit;
+    quantidade--;
+
+    if (quantidade > 1) {
+      carrinhoCompra.textContent = `quantidade de produtos: ${quantidade} produtos`
+    } else if (quantidade === 1) {
+      carrinhoCompra.textContent = `quantidade de produtos: ${quantidade} produto`
+    } else {
+      carrinhoCompra.textContent = `carrinho zerado`
+      logicaVoltarContinuar()
+      continuarPag.classList.add("hide")
+    }
+
+    if(quantidade === 0){
+      [containerProdutosCarrinho,produtosCarrinhoBtn].forEach((el)=> el.classList.add("none"))
+    }
+  }
+
+  if (Math.abs(precoCount) < 0.01) precoCount = 0;
+  contarPreco.innerHTML = `Total: R$ ${precoCount.toFixed(2)}`
+}
+
+// ======== fim ajustes do carrinho ========
 
 function logicaVoltarContinuar(){
     if(!containerProdutos.classList.contains("none")){
@@ -386,35 +459,9 @@ function logicaVoltarContinuar(){
     formasPagamento.classList.add("none")
 }
 
-function removerProduto(item, preco) {
-  item.remove();
-  precoCount -= preco;
-  quantidade--;
-  p.textContent = quantidade
-
-
-  if (quantidade > 1) {
-    carrinhoCompra.textContent = `quantidade de produtos: ${quantidade} produtos`
-  } else if (quantidade === 1) {
-    carrinhoCompra.textContent = `quantidade de produtos: ${quantidade} produto`
-  } else {
-    carrinhoCompra.textContent = `carrinho zerado`
-    logicaVoltarContinuar()
-  }
-
-  if(carrinhoCompra.textContent === "carrinho zerado"){
-    [continuarPag, fecharConta].forEach((el) => el.classList.add("hide"))
-    continuarPag.classList.add("none")
-  }
-
-  if(quantidade === 0){
-    [containerProdutosCarrinho,produtosCarrinhoBtn].forEach((el)=> el.classList.add("none"))
-  }
-    if (Math.abs(precoCount) < 0.01) precoCount = 0;
-    contarPreco.innerHTML = `Total: R$ ${precoCount.toFixed(2)}`
-}
 
 produtosCarrinhoBtn.addEventListener("click", () => {
+
   containerProdutosCarrinho.classList.toggle("none")
   if(!containerProdutosCarrinho.classList.contains("none")){
     produtosCarrinhoBtn.textContent = "Fechar carrinho"
@@ -549,6 +596,7 @@ function esconderCarrinho(){
 // EVENTOS DOS SELECTS
 [selectFiltros, selectTipos].forEach((select)=>{
       select.addEventListener("change", (e)=>{
+  document.body.classList.remove("bodyPadding")
       containerProdutosCarrinho.classList.add("none")
       produtosCarrinhoBtn.classList.remove("red")
       produtosCarrinhoBtn.textContent = "Mostrar produtos no carrinho"
