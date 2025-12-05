@@ -167,6 +167,7 @@ continuarPag.classList.add("hide")
     formasPagamento.classList.remove("hide");
     formasPagamento.classList.remove("none");
     document.body.appendChild(formaPagH2)
+    formaPagH2.classList.remove("none")
 }
 
 voltar.addEventListener("click", () =>{
@@ -184,6 +185,7 @@ function voltarLogica(){
   mostrarProdutosCarrinho.textContent = "Mostrar produtos no carrinho"
   selectProdutos.classList.remove("none")
   produtosCarrinhoBtn.classList.add("hide")
+  formaPagH2.classList.add("none")
 }
 
 
@@ -199,8 +201,10 @@ function zerar(){
   carrinhoCompra.innerHTML = "Carrinho zerado"
   contarPreco.innerHTML = `Total: R$ 0.00`
   formasPagamento.classList.add("none")
+  formaPagH2.classList.add("none")
   if(quantidade <= 0) return 
 }
+ 
 
 // ZERAR CARRINHO
 function zerarCarrinho(){
@@ -435,6 +439,8 @@ function removerProduto(item, preco) {
       carrinhoCompra.textContent = `quantidade de produtos: ${quantidade} produto`
     } else {
       carrinhoCompra.textContent = `carrinho zerado`
+      fecharConta.classList.add("none")
+      document.body.classList.remove("bodyPadding")
       logicaVoltarContinuar()
       continuarPag.classList.add("hide")
     }
@@ -459,9 +465,7 @@ function logicaVoltarContinuar(){
     formasPagamento.classList.add("none")
 }
 
-
 produtosCarrinhoBtn.addEventListener("click", () => {
-
   containerProdutosCarrinho.classList.toggle("none")
   if(!containerProdutosCarrinho.classList.contains("none")){
     produtosCarrinhoBtn.textContent = "Fechar carrinho"
@@ -693,6 +697,7 @@ function checarCheckboxes(){
   el.addEventListener("change", () =>{
     el.id === "acima-100" ? abaixo100.checked = false : acima100.checked = false
     checarCheckboxes()
+    document.body.classList.remove("bodyPadding")
   })
 })
 
