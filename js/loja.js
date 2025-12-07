@@ -33,6 +33,7 @@ const produtosCarrinhoBtn = document.querySelector("#mostrar-produtos-carrinho")
 const containerProdutosCarrinho = document.querySelector("#container-produtos-carrinho")
 
 const containerAviso = document.querySelector("#container-aviso")
+containerAviso.classList.add("none")
 
 const formaPagH2 = document.createElement("h2")
 formaPagH2.id = "forma-pag-h2"
@@ -47,31 +48,30 @@ const produtos = {
   ],
 
   tenis: [
-    { tipo: "tenis", nome: "Tênis cargo", cor: "preto", preco: 369.90, promocao: false, src: "tenispreto.webp"},
-    { tipo: "tenis", nome: "Tênis streetwear", cor: "amarelo", preco: 319.99, promocao: true, precoPromocao: 219.90, src: "tenisamarelo.jpeg" },
-    { tipo: "tenis", nome: "Tênis jeans", cor: "azul", preco: 209.99, promocao: true, precoPromocao: 149.99, src: "tenisazul.webp" },
-    { tipo: "tenis", nome: "Tênis moletom", cor: "branco", preco: 79.49, promocao: false, src: "tenisbranco.webp"},
+    { tipo: "tenis", nome: "Tênis Air Jordan 4", cor: "preto", preco: 369.90, promocao: false, src: "tenispreto.webp"},
+    { tipo: "tenis", nome: "Tênis Air Jordan 3", cor: "amarelo", preco: 319.99, promocao: true, precoPromocao: 219.90, src: "tenisamarelo.jpeg" },
+    { tipo: "tenis", nome: "Tênis Air Jordan 1", cor: "azul", preco: 209.99, promocao: true, precoPromocao: 149.99, src: "tenisazul (2).webp" },
+    { tipo: "tenis", nome: "Tênis Air Jordan 5", cor: "branco", preco: 79.49, promocao: false, src: "tenisbranco.webp"},
   ],
 
   bone: [
-    { tipo: "bone", nome: "Boné cargo", cor: "branco", preco: 69.99, promocao: true, precoPromocao: 44.90, src: "tenispreto.webp"},
-    { tipo: "bone", nome: "Boné streetwear", cor: "azul", preco: 119.90, promocao: true, precoPromocao: 79.90, src: "tenisamarelo.jpeg" },
-    { tipo: "bone", nome: "Boné jeans", cor: "preto", preco: 209.99, promocao: false, src: "tenisazul.webp" },
-    { tipo: "bone", nome: "Boné moletom", cor: "vermelho", preco: 79.49, promocao: false, src: "tenisbranco.webp"},
+    { tipo: "bone", nome: "Boné Beisebol NY", cor: "azul escuro", preco: 69.99, promocao: true, precoPromocao: 44.90, src: "bone1.webp"},
+    { tipo: "bone", nome: "Boné Beisebol LA", cor: "marrom", preco: 119.90, promocao: true, precoPromocao: 79.90, src: "bone2.webp" },
+    { tipo: "bone", nome: "Boné Comptom", cor: "preto", preco: 209.99, promocao: false, src: "bone3.webp" },
+    { tipo: "bone", nome: "Boné Nike", cor: "preto", preco: 79.49, promocao: false, src: "bone4.webp"},
   ],
 
   camisa: [
-    { tipo: "camisa", nome: "Camisa cargo", cor: "azul", preco: 49.99, promocao: false, src: "tenispreto.webp"},
-    { tipo: "camisa", nome: "Camisa streetwear", cor: "amarelo", preco: 79.90, promocao: false, src: "tenisamarelo.jpeg" },
-    { tipo: "camisa", nome: "Camisa jeans", cor: "vermelho", preco: 129.90, promocao: false, src: "tenisazul.webp"},
-    { tipo: "camisa", nome: "Camisa moletom", cor: "branco", preco: 85.49, promocao: false, src: "tenisbranco.webp"},
+    { tipo: "camisa", nome: "Camisa Nike", cor: "preto", preco: 49.99, promocao: false, src: "camisa1.webp"},
+    { tipo: "camisa", nome: "Camisa Lacoste", cor: "preto", preco: 79.90, promocao: false, src: "camisa2.webp" },
+    { tipo: "camisa", nome: "Camisa Armani", cor: "azul escuro", preco: 129.90, promocao: false, src: "camisa3.webp"},
+    { tipo: "camisa", nome: "Camisa Adidas", cor: "branco", preco: 85.49, promocao: false, src: "camisa4.avif"},
   ]
 }
 
 let quantidade = 0;
 let precoCount = 0
 let produto = 0 
-
 
 fecharPedidoDiv.classList.add("none")
 // FUNÇÃO PARA ADICIONAR PRODUTOS NO CARRINHO
@@ -265,7 +265,7 @@ function criarEstruturaProduto(nome, preco, imagem, cor, precoPromocao) {
   div2.classList.add("produto");
 
   const img = document.createElement("img");
-  img.classList.add("calca-img");
+  img.classList.add("produto-img");
   img.src = `./img/${imagem}`
 
   const nomeProduto = document.createElement("p");
