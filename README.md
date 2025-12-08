@@ -3,8 +3,8 @@
 
 Sistema de loja online com filtros avançados, carrinho funcional e opções de pagamento — tudo desenvolvido em HTML, CSS e JavaScript.
 
-🔧 Tecnologias
-<img src="https://skillicons.dev/icons?i=html,css,js" height="30"/> </div>
+🔧 Tecnologias:
+<img src="https://skillicons.dev/icons?i=html,css,js" height="30" marginLeft = "1.5rem"/></div>
 📊 Visão Geral do Sistema
 
 Este projeto simula uma loja virtual com sistema completo de gerenciamento de produtos e carrinho.
