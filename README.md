@@ -49,12 +49,6 @@ ou juros
 
 Total recalculado imediatamente
 
-📂 Como usar
+Deploy: https://loja-produtos-alpha.vercel.app/
 
-Clone o repositório:
 
-git clone https://github.com/seuusuario/Loja-produtos.git
-
-Abra o arquivo index.html no navegador.
-
-Explore os produtos, use os filtros e monte seu carrinho.
