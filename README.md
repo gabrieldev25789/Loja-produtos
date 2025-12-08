@@ -1,21 +1,60 @@
-# Loja de Produtos 🛒
+<div align="center">
+🛒 Loja de Produtos – Dashboard Completo
 
-Projeto simples de uma loja online feito com **HTML, CSS e JavaScript**.
+Sistema de loja online com filtros avançados, carrinho funcional e opções de pagamento — tudo desenvolvido em HTML, CSS e JavaScript.
 
-## 🚀 Funcionalidades
-- Listagem de produtos
-- Cálculo de valores
-- Layout responsivo
+🔧 Tecnologias
+<img src="https://skillicons.dev/icons?i=html,css,js" height="50"/> </div>
+📊 Visão Geral do Sistema
 
-🛠️ Tecnologias
+Este projeto simula uma loja virtual com sistema completo de gerenciamento de produtos e carrinho.
+O usuário pode filtrar itens, visualizar promoções, escolher formas de pagamento e acompanhar cálculos em tempo real.
 
-- HTML
+🚀 Funcionalidades Principais
+🔍 Filtros inteligentes
 
-- CSS
+Filtro por tipo de produto
 
-- JavaScript
+Filtro por produtos em promoção
 
-## 📦 Como usar
-1. Clone este repositório:
-   ```bash
-   git clone https://github.com/seuusuario/Loja-produtos.git
+Filtro por preço: acima de R$100 / abaixo de R$100
+
+Verificação automática: caso nenhum item atenda aos filtros, uma mensagem aparece
+
+🛒 Carrinho de compras
+
+Adicionar produtos com nome exibido
+
+Contagem de:
+
+Quantidade total
+
+Soma dos valores (respeitando promoções)
+
+Visualização completa do carrinho
+
+Remover itens individualmente
+
+Zerar o carrinho com um clique
+
+💰 Pagamento
+
+Seleção de forma de pagamento
+
+Aplicação automática de:
+
+desconto
+
+ou juros
+
+Total recalculado imediatamente
+
+📂 Como usar
+
+Clone o repositório:
+
+git clone https://github.com/seuusuario/Loja-produtos.git
+
+Abra o arquivo index.html no navegador.
+
+Explore os produtos, use os filtros e monte seu carrinho.
